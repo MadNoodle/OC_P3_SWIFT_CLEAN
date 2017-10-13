@@ -1,6 +1,6 @@
 
 // ///////////////  //
-// MARK: CHARACTERS //
+// MARK: PLAYERS //
 // ///////////////  //
 
 class Player {
@@ -14,6 +14,7 @@ class Player {
     func win(){}
     func lose(){}
     
+    //creer son équipe
     func createPlayerTeam(){
         
         print("LE JOUEUR \(self.id) VA COMPOSER SON EQUIPE")
@@ -35,6 +36,7 @@ class Player {
         }
     }
     
+    // Montrer son équipe
     func showTeam() {
         for i in 0..<playerTeam.count {
             print(
@@ -47,6 +49,24 @@ class Player {
         }
     }
     
+    func turn(){
+        print ("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
+            + "\n Que souhaitez vous faire?"
+            + "\n1. 👁 voir l'état de votre équipe"
+            + "\n2. ⚔ attaquer")
+        
+        if let userChoice = readLine(){
+            switch userChoice {
+            case "1":
+                showTeam()
+                turn()
+            case "2":
+                print("J'attaque")
+            default:
+                print("Je ne comprends pas")
+            }
+        }
+    }
 }
 // ///////////////  //
 // MARK: CHARACTERS //
@@ -78,6 +98,9 @@ class Character {
                 self.damages = 30
         }
     }
+    
+    
+    
 }
 
 enum Classe {
@@ -105,10 +128,8 @@ func createHero() -> Character{
         + "\n3. Colosse"
         + "\n4. Nain")
     
- 
-    
-    var classe:Classe!
-    // On assume qu'il a une valeur donc il faut verifier avant l entrée dans le switch
+    var classe:Classe!                  // Poser question Dhia "Pourquoi je dois le forcer"
+                                        // On assume qu'il a une valeur donc il faut verifier avant l entrée dans le switch
     if let choice = readLine(){
         switch choice {
         case "1":
@@ -145,6 +166,14 @@ player1.createPlayerTeam()
 player1.showTeam()
 player2.createPlayerTeam()
 player2.showTeam()
+
+while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
+    player1.turn()
+    player2.turn()
+}
+
+if player1.playerTeam.count == 0 {print("LE JOUEUR 2 à GAGNER")} else if player2.playerTeam.count == 0 {print("LE JOUEUR 1 à GAGNER")}
+
 
 
 
