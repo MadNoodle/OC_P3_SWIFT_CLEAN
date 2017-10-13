@@ -1,7 +1,56 @@
 
+// ///////////////  //
+// MARK: CHARACTERS //
+// ///////////////  //
 
-
-// MARK: LES PERSONNAGES
+class Player {
+    var id : Int
+    var playerTeam = [Character]()
+    
+    init(id:Int){
+        self.id = id
+    }
+    
+    func win(){}
+    func lose(){}
+    
+    func createPlayerTeam(){
+        
+        print("LE JOUEUR \(self.id) VA COMPOSER SON EQUIPE")
+        while playerTeam.count<4{
+            let hero = createHero()
+            
+            //Verification si le personnage existe déjà
+            if playerTeam.contains (where: { $0.name == hero.name }) {
+                print("Ce guerrier existe déjà, Choisissez un autre nom")
+            } else {
+                //ajout du hero généré dans le tableau
+                playerTeam.append(hero)
+                //limite la taille de l'équipe à 4 Héros
+                }
+            
+            if playerTeam.count == 4 {
+                print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔VOUS ETES PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
+            }
+        }
+    }
+    
+    func showTeam() {
+        for i in 0..<playerTeam.count {
+            print(
+                "==========Heros n°\(i+1)=============="
+                    + "\n      Nom :    \(playerTeam[i].name) "
+                    + "\n      Classe : \(playerTeam[i].classe)"
+                    + "\n      Vie :    \(playerTeam[i].health) pts"
+                    + "\n      Dmg :    \(playerTeam[i].damages) pts"
+                    + "\n=================================")
+        }
+    }
+    
+}
+// ///////////////  //
+// MARK: CHARACTERS //
+// ///////////////  //
 
 //Defintion Objet personnage qui stocke les caracteristiques communes
 class Character {
@@ -35,7 +84,9 @@ enum Classe {
     case warrior, mage, colossus, dwarf
 }
 
-// MARK: FUNCTIONS
+// ///////////////  //
+// MARK: FUNCTIONS  //
+// ///////////////  //
 
 // CREER UN CHAMPION
 
@@ -53,7 +104,9 @@ func createHero() -> Character{
         + "\n2. Mage"
         + "\n3. Colosse"
         + "\n4. Nain")
-  
+    
+ 
+    
     var classe:Classe!
     // On assume qu'il a une valeur donc il faut verifier avant l entrée dans le switch
     if let choice = readLine(){
@@ -67,51 +120,31 @@ func createHero() -> Character{
         case "4":
             classe = .dwarf
         default:
-           print("Veuillez choisir une classe")
-/**
-- ToDo: gerer erreur quand on tape autre chose que les choix
-*/
+            print("ERROR")
+            }
         }
-    }
+/**
+ -ToDo : Corriger bug si pas 1234
+ */
     //Création du champion
     let champion = Character(name:name,classe:classe)
     return champion
-}
-
-func createPlayerTeam(){
-    while playerTeam.count<4{
-        let hero = createHero()
-        
-/**
- - ToDo: Ajouter une condition pour ne pas avoir de doublons dans les noms
- */
-        
-        //ajout du hero généré dans le tableau
-            playerTeam.append(hero)
-        //limite la taille de l'équipe à 4 Héros
-            for i in 0..<playerTeam.count {
-                print(
-                "==========Heros n°\(i+1)=============="
-                    + "\n      Nom :    \(playerTeam[i].name) "
-                    + "\n      Classe : \(playerTeam[i].classe)"
-                    + "\n      Vie :    \(playerTeam[i].health) pts"
-                    + "\n      Dmg :    \(playerTeam[i].damages) pts"
-                    + "\n=================================")
-            }
-            
-        
-        
-        if playerTeam.count == 4 {
-            print("=================Vous etes pret à combrattre================")
-        }
     }
-}
-// MARK: GAME
+
+
+// ///////////////  //
+// MARK: GAME       //
+// ///////////////  //
 
 //tableau qui contiendra l'équipe du jour
-var playerTeam = [Character]()
 
-createPlayerTeam()
+let player1 = Player(id:1)
+let player2 = Player(id:2)
+
+player1.createPlayerTeam()
+player1.showTeam()
+player2.createPlayerTeam()
+player2.showTeam()
 
 
 
