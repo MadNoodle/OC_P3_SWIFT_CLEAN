@@ -19,11 +19,13 @@ class Game {
         player2.showTeam()
    
     //Fight loop
-    while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
-        player1.turn()
-        player2.turn()
-    }
+        //TURN BY TURN LOGIC
+        while player1.playerTeam.count>0 || player2.playerTeam.count>0{
+            player1.turn(enemyPlayer:player2)
+            player2.turn(enemyPlayer:player1)
+        }
     
+       
     //Winning conditions
     if player1.playerTeam.count == 0 {print("LE JOUEUR 2 à GAGNER")} else if player2.playerTeam.count == 0 {print("LE JOUEUR 1 à GAGNER")}
      }
@@ -84,28 +86,22 @@ class Player {
         return detail
     }
     // Different actions a player can do during a turn
-    func turn(){
-//let enemyPlayer:Player
+    func turn(enemyPlayer:Player){
         
-//if player.id == 1 {enemyplayer = player.id} else {enemyplayer = player1}
-        print ("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
+        print ("\n\n"
+            +"=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
             + "\n Que souhaitez vous faire?"
             + "\n1. 👁 voir l'état de votre équipe"
             + "\n2. ⚔ attaquer")
         
         if let userChoice = readLine(){
-
-            var attacker:Character
             
             switch userChoice {
             case "1":
                 showTeam()
-                turn()
+                turn(enemyPlayer:enemyPlayer)
             case "2":
-                selectChar()
-//                target = chooseTarget()
-//                attack(target:target, attacker:attacker)
-                print("attaquer")
+                figth(enemyPlayer:enemyPlayer)
             case "3":
                 print("soigner")
             default:
@@ -114,24 +110,54 @@ class Player {
         }
     }
     
-    func selectChar() -> Character{
-
-        print("Choisissez la personne que voulez attaquer"
-            + "\n 1.\(self.showTeamDetail(id:0)) "
-            + "\n 2. \(self.showTeamDetail(id:1)) `"
+    func figth(enemyPlayer:Player){
+        var fighter = [Character]()
+      
+        
+        print("Choisissez votre attaquant"
+            + "\n 1. \(self.showTeamDetail(id:0))"
+            + "\n 2. \(self.showTeamDetail(id:1))"
             + "\n 3. \(self.showTeamDetail(id:2))")
 
-        if let attacker = readLine(){
-            switch attacker {
+        if let choice = readLine(){
+            var attacker:Character
+            switch choice {
             case "1":
                 attacker = self.playerTeam[0]
-                print(attacker)
+                fighter.append(attacker)
             case "2":
                 attacker = self.playerTeam[1]
-                print(attacker)
+                fighter.append(attacker)
             case "3":
                 attacker = self.playerTeam[2]
-                print(attacker)
+                fighter.append(attacker)
+            default:
+                print("Je ne comprends pas")
+            }
+            
+        }
+        
+        print("Choisissez votre cible"
+            + "\n 1. \(enemyPlayer.showTeamDetail(id:0)) "
+            + "\n 2. \(enemyPlayer.showTeamDetail(id:1)) `"
+            + "\n 3. \(enemyPlayer.showTeamDetail(id:2))")
+        
+        if let choice = readLine(){
+              var target:Character
+            switch choice {
+            case "1":
+                target = enemyPlayer.playerTeam[0]
+                fighter.append(target)
+                attack(attacker:fighter[0], target:fighter[1])
+
+            case "2":
+                target = enemyPlayer.playerTeam[1]
+                fighter.append(target)
+                attack(attacker:fighter[0], target:fighter[1])
+            case "3":
+                target = enemyPlayer.playerTeam[2]
+                fighter.append(target)
+                attack(attacker:fighter[0], target:fighter[1])
             default:
                 print("Je ne comprends pas")
             }
@@ -139,34 +165,12 @@ class Player {
         }
 
     }
-//
-//    func chooseTarget() -> Character {
-//        if self.id == 1 { enemyPlayer = player(id:2)} else { enemyPlayer = player(id:1)}
-//        print("Choisissez la personne que voulez attaquer"
-//            + "\n 1.\(enemyPlayer.showTeamDetail(id:0)) "
-//            + "\n 2. \(enemyPlayer.showTeamDetail(id:1)) `"
-//            + "\n 3. \(enemyPlayer.showTeamDetail(id:2))")
-//
-//        if let target = readLine(){
-//            switch target {
-//            case "1":
-//                return enemyPlayer.playerTeam[0]
-//            case "2":
-//                return enemyPlayer.playerTeam[1]
-//            case "3":
-//                return enemyPlayer.playerTeam[2]
-//            default:
-//                print("Je ne comprends pas")
-//            }
-//        }
-//
-//    }
-//
-//    func attack(target:Character,attacker:Character){
-//        target.health -= attacker.damages
-//        print(target.health)
-//
-//    }
+    
+    func attack(attacker:Character, target:Character){
+        target.health -= attacker.damages
+        print("\(attacker.name) fait \(attacker.damages) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
+         fighter.removeAll()
+    }
 
 }
 // ///////////////  //
