@@ -1,3 +1,35 @@
+// ///////////////  //
+// MARK: GAME       //
+// ///////////////  //
+
+class Game {
+    var player1:Player
+    var player2:Player
+    
+    
+    init(player1:Player, player2:Player){
+        self.player1 = player1
+        self.player2 = player2
+    }
+    
+    //Launch a new Game
+    func newGame(){
+    player1.createPlayerTeam()
+    player1.showTeam()
+    player2.createPlayerTeam()
+    player2.showTeam()
+   
+    //Fight loop
+    while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
+    player1.turn()
+    player2.turn()
+    }
+    
+    //Winning conditions
+    if player1.playerTeam.count == 0 {print("LE JOUEUR 2 à GAGNER")} else if player2.playerTeam.count == 0 {print("LE JOUEUR 1 à GAGNER")}
+    
+     }
+}
 
 // ///////////////  //
 // MARK: PLAYERS //
@@ -6,37 +38,36 @@
 class Player {
     var id : Int
     var playerTeam = [Character]()
+    //var enemyPlayer:Player
     
     init(id:Int){
         self.id = id
+      
     }
     
-    func win(){}
-    func lose(){}
     
-    //creer son équipe
+    //Create a team
     func createPlayerTeam(){
         
-        print("LE JOUEUR \(self.id) VA COMPOSER SON EQUIPE")
-        while playerTeam.count<4{
+        print("\u{001B}[0;33mLE JOUEUR \(self.id) VA COMPOSER SON EQUIPE\u{001B}[0;37m")
+        while playerTeam.count<3{
             let hero = createHero()
             
-            //Verification si le personnage existe déjà
+            //Name checking for duplicates
             if playerTeam.contains (where: { $0.name == hero.name }) {
                 print("Ce guerrier existe déjà, Choisissez un autre nom")
             } else {
-                //ajout du hero généré dans le tableau
+                //add hero to team
                 playerTeam.append(hero)
-                //limite la taille de l'équipe à 4 Héros
                 }
-            
-            if playerTeam.count == 4 {
+            //limit team's size to 3
+            if playerTeam.count == 3 {
                 print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔VOUS ETES PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
             }
         }
     }
     
-    // Montrer son équipe
+    // Show team's stats
     func showTeam() {
         for i in 0..<playerTeam.count {
             print(
@@ -48,48 +79,115 @@ class Player {
                     + "\n=================================")
         }
     }
-    
+    //Show one character details
+    func showTeamDetail (id:Int) ->String {
+        let detail = "\(playerTeam[id].name) \(playerTeam[id].classe) \(playerTeam[id].health) \(playerTeam[id].damages)"
+        return detail
+    }
+    // Different actions a player can do during a turn
     func turn(){
+//let enemyPlayer:Player
+        
+//if player.id == 1 {enemyplayer = player.id} else {enemyplayer = player1}
         print ("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
             + "\n Que souhaitez vous faire?"
             + "\n1. 👁 voir l'état de votre équipe"
             + "\n2. ⚔ attaquer")
         
         if let userChoice = readLine(){
+//let target:Character
+//let attacker:Character
             switch userChoice {
             case "1":
                 showTeam()
                 turn()
             case "2":
-                print("J'attaque")
+//                attacker = selectChar()
+//                target = chooseTarget()
+//                attack(target:target, attacker:attacker)
+                print("attaquer")
+            case "3":
+                print("soigner")
             default:
                 print("Je ne comprends pas")
             }
         }
     }
+    
+//    func selectChar() -> Character{
+//
+//        print("Choisissez la personne que voulez attaquer"
+//            + "\n 1.\(self.showTeamDetail(id:0)) "
+//            + "\n 2. \(self.showTeamDetail(id:1)) `"
+//            + "\n 3. \(self.showTeamDetail(id:2))")
+//
+//        if let attacker = readLine(){
+//            switch attacker {
+//            case "1":
+//                var attacker = self.playerTeam[0]
+//            case "2":
+//                var attacker = self.playerTeam[1]
+//            case "3":
+//                var attacker = self.playerTeam[2]
+//            default:
+//                print("Je ne comprends pas")
+//            }
+//            return attacker
+//        }
+//
+//    }
+//
+//    func chooseTarget() -> Character {
+//        if self.id == 1 { enemyPlayer = player(id:2)} else { enemyPlayer = player(id:1)}
+//        print("Choisissez la personne que voulez attaquer"
+//            + "\n 1.\(enemyPlayer.showTeamDetail(id:0)) "
+//            + "\n 2. \(enemyPlayer.showTeamDetail(id:1)) `"
+//            + "\n 3. \(enemyPlayer.showTeamDetail(id:2))")
+//
+//        if let target = readLine(){
+//            switch target {
+//            case "1":
+//                return enemyPlayer.playerTeam[0]
+//            case "2":
+//                return enemyPlayer.playerTeam[1]
+//            case "3":
+//                return enemyPlayer.playerTeam[2]
+//            default:
+//                print("Je ne comprends pas")
+//            }
+//        }
+//
+//    }
+//
+//    func attack(target:Character,attacker:Character){
+//        target.health -= attacker.damages
+//        print(target.health)
+//
+//    }
+
 }
 // ///////////////  //
 // MARK: CHARACTERS //
 // ///////////////  //
 
-//Defintion Objet personnage qui stocke les caracteristiques communes
+//Character object
 class Character {
-    let name : String // Nom du combattant
-    var classe : Classe//Profession champion
-    var health : Int // Points de vie
-    var damages : Int // Valeurs Dégats ou soins pour mages
+    let name : String // Fighter's name
+    var classe : Classe //Fighter's class
+    var health : Int // health points
+    var damages : Int // damages or heal value
     
     init(name:String, classe : Classe){
         self.name = name
         self.classe = classe
-        //Caracteristiques des classes
+        //class caracteristics
         switch self.classe{
         case .warrior:
                 self.health = 100
                 self.damages = 10
         case .mage:
                 self.health = 50
-                self.damages = -20 //valeur négative car soins (trouver une manière plus élégante)
+                self.damages = -20
         case .colossus:
                 self.health = 150
                 self.damages = 2
@@ -98,11 +196,9 @@ class Character {
                 self.damages = 30
         }
     }
-    
-    
-    
-}
 
+}
+//Enum of all classes
 enum Classe {
     case warrior, mage, colossus, dwarf
 }
@@ -111,17 +207,17 @@ enum Classe {
 // MARK: FUNCTIONS  //
 // ///////////////  //
 
-// CREER UN CHAMPION
+// Create a hero
 
 func createHero() -> Character{
-    // Donner un nom à son champion
+    // Give a name to a champ
     print ("comment s'appelle votre guerrier?")
     var name = ""
     if let nameChamp = readLine(){
         name = nameChamp
         print("Votre héros s'appelle \(nameChamp)")
     }
-    // Choisir sa classe
+    // Choose character class
     print ("Quelle est sa profession ?"
         + "\n1. Guerrier"
         + "\n2. Mage"
@@ -147,32 +243,20 @@ func createHero() -> Character{
 /**
  -ToDo : Corriger bug si pas 1234
  */
-    //Création du champion
+    //Hero instanciantion
     let champion = Character(name:name,classe:classe)
     return champion
     }
 
 
 // ///////////////  //
-// MARK: GAME       //
+// MARK: LOGIC     //
 // ///////////////  //
-
-//tableau qui contiendra l'équipe du jour
-
 let player1 = Player(id:1)
 let player2 = Player(id:2)
 
-player1.createPlayerTeam()
-player1.showTeam()
-player2.createPlayerTeam()
-player2.showTeam()
-
-while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
-    player1.turn()
-    player2.turn()
-}
-
-if player1.playerTeam.count == 0 {print("LE JOUEUR 2 à GAGNER")} else if player2.playerTeam.count == 0 {print("LE JOUEUR 1 à GAGNER")}
+let game = Game(player1:player1,player2:player2)
+game.newGame()
 
 
 
