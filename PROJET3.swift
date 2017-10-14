@@ -44,6 +44,13 @@ class Player {
         self.id = id
     }
     
+    // function that converts string input to input use to prevent crash when typing out of range input
+    func keyInput() -> Int{
+        
+        let input = readLine(); //readLine optionnal
+            return Int(input!)! //Int conversion optionnal do not remove ! !
+    }
+    
     // //////////////////////////  //
     // MARK: SELECT YOUR WARRRIORS //
     // //////////////////////////  //
@@ -67,6 +74,7 @@ class Player {
             } else {
                 //add hero to team
                 playerTeam.append(hero)
+                showTeam()
             }
             
             //limit team's size to 3
@@ -79,6 +87,8 @@ class Player {
     // CREATE HERO
     
     func createHero() -> Character{
+        var userChoice:Int
+        
         // Give a name to a champ
         print ("\(self.name), comment s'appelle votre guerrier?")
         var name = ""
@@ -87,38 +97,35 @@ class Player {
             print("Votre héros s'appelle \(nameChamp)")
         }
         // Choose character class
-        print ("Quelle est sa profession ?"
+        repeat {  //Sanity check to prevent out of range input crash
+            print ("Quelle est sa profession ?"
             + "\n1. Guerrier"
             + "\n2. Mage"
             + "\n3. Colosse"
             + "\n4. Nain")
+            userChoice = keyInput()
+        } while userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4
         
-        var classe:Classe!                  // Poser question Dhia "Pourquoi je dois le forcer"
-        // On assume qu'il a une valeur donc il faut verifier avant l entrée dans le switch
-        if let choice = readLine(){
-            switch choice {
-            case "1":
+        //Classe selection
+        var classe:Classe!  // assuming the optionnal have a value cf. sanity check
+            switch userChoice {
+            case 1:
                 classe = .warrior
-            case "2":
+            case 2:
                 classe = .mage
-            case "3":
+            case 3:
                 classe = .colossus
-            case "4":
+            case 4:
                 classe = .dwarf
             default:
                 break
             }
-        }
-        /**
-         -ToDo : Corriger bug si pas 1234
-         */
+
         //Hero instanciantion
         let champion = Character(name:name,classe:classe)
         return champion
     }
 
-    
-   
     //SHOW CHAR DETAILS
     func showTeamDetail (id:Int) ->String {
         let detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Dommages: \(playerTeam[id].damages)"
