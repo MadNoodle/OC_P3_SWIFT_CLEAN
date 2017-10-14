@@ -14,9 +14,7 @@ class Game {
     //Launch a new Game
     func newGame(){
         player1.createPlayerTeam()
-        player1.showTeam()
         player2.createPlayerTeam()
-        player2.showTeam()
    
         //TURN BY TURN LOGIC
         while player1.playerTeam.count>0 || player2.playerTeam.count>0{
@@ -128,7 +126,11 @@ class Player {
 
     //SHOW CHAR DETAILS
     func showTeamDetail (id:Int) ->String {
-        let detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Dommages: \(playerTeam[id].damages)"
+        let detail:String
+        if playerTeam[id].classe == .mage{
+            detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    💧  Soins: \(playerTeam[id].damages)"
+        }else{
+            detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Dommages: \(playerTeam[id].damages)"}
         return detail
     }
     
@@ -201,6 +203,41 @@ class Player {
             }
             
         }
+        if fighter[0].classe == .mage {
+            //Choose your fighter
+            print("Choisissez la personne que vous voulez soigner"
+                + "\n 1. \(self.showTeamDetail(id:0))"
+                + "\n 2. \(self.showTeamDetail(id:1))"
+                + "\n 3. \(self.showTeamDetail(id:2))")
+            
+            if let choice = readLine(){
+                var target:Character
+                
+                
+                switch choice {
+                case "1":
+                    target = self.playerTeam[0]
+                    fighter.append(target)
+                    heal(attacker:fighter[0], target:fighter[1])
+                    fighter.removeAll()
+                    
+                case "2":
+                    target = self.playerTeam[1]
+                    fighter.append(target)
+                    heal(attacker:fighter[0], target:fighter[1])
+                    fighter.removeAll()
+                case "3":
+                    target = self.playerTeam[2]
+                    fighter.append(target)
+                    heal(attacker:fighter[0], target:fighter[1])
+                    fighter.removeAll()
+                default:
+                    print("Je ne comprends pas")
+                }
+                
+            }
+            
+        }else{
         //Choose your victim
         print("Choisissez votre cible"
             + "\n 1. \(enemyPlayer.showTeamDetail(id:0)) "
@@ -209,9 +246,8 @@ class Player {
         
         if let choice = readLine(){
               var target:Character
-            
-          
-   /**ToDo: handle the case where it s healer and print a different messageand*/
+     
+  
             switch choice {
             case "1":
                 target = enemyPlayer.playerTeam[0]
@@ -236,6 +272,7 @@ class Player {
         }
 
     }
+    }
     // ATTACK => DO DAMAGES
     func attack(attacker:Character, target:Character){
         //Deal Damage
@@ -251,6 +288,19 @@ class Player {
         }
         
     }
+    
+    //HEAL
+    func heal(attacker:Character, target:Character){
+    
+    //Check is dead or alive
+    if target.health <= 0 {
+    print ("☠️ On ne peut pas soigner les morts")
+    } else {
+    target.health += attacker.damages
+    print("\(attacker.name) soigne \(target.name) de \(attacker.damages) points de vie. \(target.name) a \(target.health) points de vie.")
+    }
+    
+}
     
    
 
@@ -279,7 +329,7 @@ class Character {
                 self.icon = "⚔"
         case .mage:
                 self.health = 50
-                self.damages = -20
+                self.damages = 20
                 self.icon = "✚"
         case .colossus:
                 self.health = 150
