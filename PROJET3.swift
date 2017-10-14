@@ -25,11 +25,8 @@ class Game {
         }
     
         //WINNING CONDITIONS
-/**
-Todo:enhance Winning messageCONDITIONS
-*/
-        if player1.playerTeam[0].health == 0 && player1.playerTeam[1].health == 0 && player1.playerTeam[2].health == 0 {print("LE JOUEUR 2 à GAGNER")}
-        else if player2.playerTeam[0].health == 0 && player2.playerTeam[1].health == 0 && player2.playerTeam[2].health == 0 {print("LE JOUEUR 1 à GAGNER")}
+        if player1.playerTeam[0].health == 0 && player1.playerTeam[1].health == 0 && player1.playerTeam[2].health == 0 {print("\(player2.name) GAGNE")}
+        else if player2.playerTeam[0].health == 0 && player2.playerTeam[1].health == 0 && player2.playerTeam[2].health == 0 {print("\(player1.name) GAGNE")}
          }
 }
 
@@ -39,8 +36,9 @@ Todo:enhance Winning messageCONDITIONS
 
 class Player {
     var id : Int
+    var name = ""
     var playerTeam = [Character]()
-    //var enemyPlayer:Player
+
     
     init(id:Int){
         self.id = id
@@ -52,8 +50,12 @@ class Player {
     
     //CREATE TEAM
     func createPlayerTeam(){
+        print("QUEL EST LE NOM DU JOUEUR \(self.id)?")
+        if let playerName = readLine(){
+            self.name = playerName
+        }
         
-        print("\u{001B}[0;33mLE JOUEUR \(self.id) VA COMPOSER SON EQUIPE\u{001B}[0;37m")
+        print("\u{001B}[0;33m \(self.name) VA COMPOSER SON EQUIPE\u{001B}[0;37m")
         while playerTeam.count<3{
             let hero = createHero()
             
@@ -69,7 +71,7 @@ class Player {
             
             //limit team's size to 3
             if playerTeam.count == 3 {
-                print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔VOUS ETES PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
+                print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\(self.name) EST PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
             }
         }
     }
@@ -78,7 +80,7 @@ class Player {
     
     func createHero() -> Character{
         // Give a name to a champ
-        print ("comment s'appelle votre guerrier?")
+        print ("\(self.name), comment s'appelle votre guerrier?")
         var name = ""
         if let nameChamp = readLine(){
             name = nameChamp
@@ -104,7 +106,7 @@ class Player {
             case "4":
                 classe = .dwarf
             default:
-                print("ERROR")
+                break
             }
         }
         /**
