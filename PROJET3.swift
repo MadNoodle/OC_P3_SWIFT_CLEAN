@@ -182,7 +182,7 @@ class Player {
             + "\n 2. \(self.showTeamDetail(id:1))"
             + "\n 3. \(self.showTeamDetail(id:2))")
 /**
- Todo: Add an check to disable deadd playersAdd
+ Todo: Add a check to disable dead players
  */
         if let choice = readLine(){
             var attacker:Character
