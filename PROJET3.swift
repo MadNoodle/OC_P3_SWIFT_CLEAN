@@ -130,9 +130,9 @@ class Player {
     func showTeamDetail (id:Int) ->String {
         let detail:String
         if playerTeam[id].classe == .mage{
-            detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    💧  Soins: \(playerTeam[id].damages)"
+            detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weaponName) - 💧  Soins: \(playerTeam[id].weaponDmg)"
         }else{
-            detail = "                  Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Dommages: \(playerTeam[id].damages)"}
+            detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weaponName) - 🎯 Dommages : \(playerTeam[id].weaponDmg)"}
         return detail
     }
     
@@ -140,9 +140,9 @@ class Player {
     func showTeam() {
         for i in 0..<playerTeam.count {
             print(
-                "====Heros n°\(i+1)========================================================================================"
+                "====Heros n°\(i+1)========================================================================================================"
                 + "\n \(showTeamDetail(id:i))"
-                + "\n=====================================================================================================")
+                + "\n=====================================================================================================================")
         }
     }
     
@@ -280,24 +280,28 @@ class Player {
     //RANDOM SPAWN WEAPON
     func randomSpawnWeapon(){
         let interval = Int(arc4random_uniform(UInt32(6)))
+        let randomWeapon = Int(arc4random_uniform(UInt32(6)))
         print ("\u{001B}[0;32m\(interval)\u{001B}[0;37m")
+
         if interval > 3 {
-            print("\u{001B}[0;32mApparition du coffre\u{001B}[0;37m")
+            print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(randomWeapon)"
+                + "\n1. Vous vous équipez avec \(randomWeapon)"
+                + "\n2. Vous gardez votre arme\u{001B}[0;37m")
         }
     }
     
     // ATTACK => DO DAMAGES
     func attack(attacker:Character, target:Character){
         //Deal Damage
-            target.health -= attacker.damages
+            target.health -= attacker.weaponDmg
         //Check if the character dies
         if target.health <= 0 {
             print ("☠️  \(target.name) est mort☠️ ☠️")
-            target.damages = 0
+            target.weaponDmg = 0
             target.icon = "☠️"
         } else {
             
-            print("\(attacker.name) fait \(attacker.damages) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
+            print("\(attacker.name) fait \(attacker.weaponDmg) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
         }
         
     }
@@ -309,8 +313,8 @@ class Player {
     if target.health <= 0 {
     print ("☠️ On ne peut pas soigner les morts")
     } else {
-    target.health += attacker.damages
-    print("\(attacker.name) soigne \(target.name) de \(attacker.damages) points de vie. \(target.name) a \(target.health) points de vie.")
+    target.health += attacker.weaponDmg
+    print("\(attacker.name) soigne \(target.name) de \(attacker.weaponDmg) points de vie. \(target.name) a \(target.health) points de vie.")
     }
     
 }
@@ -328,8 +332,10 @@ class Character {
     let name : String // Fighter's name
     var classe : Classe //Fighter's class
     var health : Int // health points
-    var damages : Int // damages or heal value
     var icon : String // class icon
+    var weapon : Weapon //class weapon
+    var weaponName : String // weapon name
+    var weaponDmg : Int //weapon damages
     
     init(name:String, classe : Classe){
         self.name = name
@@ -338,31 +344,46 @@ class Character {
         switch self.classe{
         case .warrior:
                 self.health = 10
-                self.damages = 10
                 self.icon = "⚔"
+                self.weapon = Weapon(name:"epee", damages: 10)
+                self.weaponName = weapon.name
+                self.weaponDmg = weapon.damages
         case .mage:
                 self.health = 50
-                self.damages = 20
                 self.icon = "✚"
+                self.weapon = Weapon(name: "baguette magique", damages : 20)
+                self.weaponName = weapon.name
+                self.weaponDmg = weapon.damages
         case .colossus:
                 self.health = 150
-                self.damages = 2
                 self.icon = "⛰"
+                self.weapon = Weapon(name: "poings", damages: 5)
+                self.weaponName = weapon.name
+                self.weaponDmg = weapon.damages
         case .dwarf:
                 self.health = 25
-                self.damages = 30
                 self.icon = "⚒"
+                self.weapon = Weapon(name: "haches", damages: 30)
+                self.weaponName = weapon.name
+                self.weaponDmg = weapon.damages
         }
     }
-    
-    
 }
+
 //Enum of all classes
 enum Classe {
     case warrior, mage, colossus, dwarf
 }
 
-
+class Weapon {
+    var damages:Int
+    var name:String
+    
+    init(name:String, damages:Int){
+        self.name = name
+        self.damages = damages
+    }
+}
 
 // ///////////////  //
 // MARK: LOGIC     //
