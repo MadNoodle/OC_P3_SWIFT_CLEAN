@@ -1,3 +1,5 @@
+import Foundation
+
 // ///////////////  //
 // MARK: GAME       //
 // ///////////////  //
@@ -21,7 +23,7 @@ class Game {
             player1.turn(enemyPlayer:player2)
             player2.turn(enemyPlayer:player1)
         }
-    
+        
         //WINNING CONDITIONS
         if player1.playerTeam[0].health == 0 && player1.playerTeam[1].health == 0 && player1.playerTeam[2].health == 0 {print("\(player2.name) GAGNE")}
         else if player2.playerTeam[0].health == 0 && player2.playerTeam[1].health == 0 && player2.playerTeam[2].health == 0 {print("\(player1.name) GAGNE")}
@@ -203,6 +205,7 @@ class Player {
             }
             
         }
+        randomSpawnWeapon()
         if fighter[0].classe == .mage {
             //Choose your fighter
             print("Choisissez la personne que vous voulez soigner"
@@ -273,6 +276,16 @@ class Player {
 
     }
     }
+    
+    //RANDOM SPAWN WEAPON
+    func randomSpawnWeapon(){
+        let interval = Int(arc4random_uniform(UInt32(6)))
+        print ("\u{001B}[0;32m\(interval)\u{001B}[0;37m")
+        if interval > 3 {
+            print("\u{001B}[0;32mApparition du coffre\u{001B}[0;37m")
+        }
+    }
+    
     // ATTACK => DO DAMAGES
     func attack(attacker:Character, target:Character){
         //Deal Damage
