@@ -177,11 +177,15 @@ class Player {
     func fight(enemyPlayer:Player){
         // Array where we store attacker and target ( will be cleared after each turn)
         var fighter = [Character]()
+<<<<<<< HEAD
         let bonusWeapon = [Weapon(name:"Missile",damages:100), Weapon(name:"arc",damages:35), Weapon(name:"baguette de pain",damages:2), Weapon(name:"Petite cuillère",damages:1)]
        // var fighterWeapon = [Weapon]()
 
 
         
+=======
+
+>>>>>>> OC_P3-master
         //Choose your fighter
         print("Choisissez votre attaquant"
             + "\n 1. \(self.showTeamDetail(id:0))"
@@ -209,7 +213,11 @@ class Player {
             }
             
         }
+<<<<<<< HEAD
         randomSpawnWeapon(bonusWeapons:bonusWeapon)
+=======
+        randomSpawnWeapon()
+>>>>>>> OC_P3-master
         if fighter[0].classe == .mage {
             //Choose your fighter
             print("Choisissez la personne que vous voulez soigner"
@@ -252,7 +260,12 @@ class Player {
             + "\n 3. \(enemyPlayer.showTeamDetail(id:2))")
         
         if let choice = readLine(){
+<<<<<<< HEAD
             var target:Character
+=======
+              var target:Character
+     
+>>>>>>> OC_P3-master
   
             switch choice {
             case "1":
@@ -260,6 +273,10 @@ class Player {
                 fighter.append(target)
                 attack(attacker:fighter[0], target:fighter[1])
                 fighter.removeAll()
+<<<<<<< HEAD
+=======
+
+>>>>>>> OC_P3-master
             case "2":
                 target = enemyPlayer.playerTeam[1]
                 fighter.append(target)
@@ -273,11 +290,18 @@ class Player {
             default:
                 print("Je ne comprends pas")
             }
+<<<<<<< HEAD
         }
+=======
+            
+        }
+
+>>>>>>> OC_P3-master
     }
     }
     
     //RANDOM SPAWN WEAPON
+<<<<<<< HEAD
     func randomSpawnWeapon(bonusWeapons:[Weapon]){
         let interval = Int(arc4random_uniform(UInt32(6)))
         let randomWeapon = Int(arc4random_uniform(UInt32(3)))
@@ -308,6 +332,20 @@ class Player {
 //        character.weapon = bonusWeapon
 //    }
     
+=======
+    func randomSpawnWeapon(){
+        let interval = Int(arc4random_uniform(UInt32(6)))
+        let randomWeapon = Int(arc4random_uniform(UInt32(6)))
+        print ("\u{001B}[0;32m\(interval)\u{001B}[0;37m")
+
+        if interval > 3 {
+            print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(randomWeapon)"
+                + "\n1. Vous vous équipez avec \(randomWeapon)"
+                + "\n2. Vous gardez votre arme\u{001B}[0;37m")
+        }
+    }
+    
+>>>>>>> OC_P3-master
     // ATTACK => DO DAMAGES
     func attack(attacker:Character, target:Character){
         //Deal Damage
@@ -318,8 +356,15 @@ class Player {
             target.weaponDmg = 0
             target.icon = "☠️"
         } else {
+<<<<<<< HEAD
             print("\(attacker.name) fait \(attacker.weaponDmg) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
         }
+=======
+            
+            print("\(attacker.name) fait \(attacker.weaponDmg) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
+        }
+        
+>>>>>>> OC_P3-master
     }
     
     //HEAL
@@ -327,12 +372,25 @@ class Player {
     
     //Check is dead or alive
     if target.health <= 0 {
+<<<<<<< HEAD
         print ("☠️ On ne peut pas soigner les morts")
     } else {
         target.health += attacker.weaponDmg
         print("\(attacker.name) soigne \(target.name) de \(attacker.weaponDmg) points de vie. \(target.name) a \(target.health) points de vie.")
     }
     }
+=======
+    print ("☠️ On ne peut pas soigner les morts")
+    } else {
+    target.health += attacker.weaponDmg
+    print("\(attacker.name) soigne \(target.name) de \(attacker.weaponDmg) points de vie. \(target.name) a \(target.health) points de vie.")
+    }
+    
+}
+    
+   
+
+>>>>>>> OC_P3-master
 }
 
 // ///////////////  //
