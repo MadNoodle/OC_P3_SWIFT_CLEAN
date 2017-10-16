@@ -14,15 +14,15 @@ import Foundation
 // MARK: CHARACTERS //
 // ///////////////  //
 
-//Character object
 class Character {
-    let name : String // Fighter's name
-    var classe : Classe //Fighter's class
-    var health : Int // health points
-    var icon : String // class icon
-    var weapon : Weapon //class weapon
-    var weaponName : String // weapon name
-    var weaponDmg : Int //weapon damages
+    let name : String                                                                   // Fighter's name
+    var classe : Classe                                                                 //Fighter's class
+    var health : Int                                                                    // health points
+    var maxHealth : Int                                                                 // maxhealth points
+    var icon : String                                                                   // class icon
+    var weapon : Weapon                                                                 //class weapon
+    var weaponName : String                                                             // weapon name
+    var weaponDmg : Int                                                                 //weapon damages
     /**
  ToDo:Définir PV max
  */
@@ -31,28 +31,33 @@ class Character {
     init(name:String, classe : Classe){
         self.name = name
         self.classe = classe
-        //class caracteristics
+        
+        //CLASS CARACTERISTICS
         switch self.classe{
         case .warrior:
-            self.health = 10
+            self.health = 100
+            self.maxHealth = 100
             self.icon = "⚔"
             self.weapon = Weapon(name:"epee", damages: 10)
             self.weaponName = weapon.name
             self.weaponDmg = weapon.damages
         case .mage:
             self.health = 50
+            self.maxHealth = 50
             self.icon = "✚"
             self.weapon = Weapon(name: "baguette magique", damages : 20)
             self.weaponName = weapon.name
             self.weaponDmg = weapon.damages
         case .colossus:
             self.health = 150
+            self.maxHealth = 150
             self.icon = "⛰"
             self.weapon = Weapon(name: "poings", damages: 5)
             self.weaponName = weapon.name
             self.weaponDmg = weapon.damages
         case .dwarf:
             self.health = 25
+            self.maxHealth = 25
             self.icon = "⚒"
             self.weapon = Weapon(name: "haches", damages: 30)
             self.weaponName = weapon.name
@@ -62,27 +67,27 @@ class Character {
     
     // ATTACK => DO DAMAGES
     func attack(attacker:Character, target:Character, enemyPlayer : Player){
-        //Deal Damage
-        target.health -= attacker.weaponDmg
-        //Check if the character dies
-        if target.health <= 0 {
+        
+        target.health -= attacker.weaponDmg                                                                         //Deal Damage
+        
+        if target.health <= 0 {                                                                                     //Check if the character dies
             print ("☠️  \(target.name) est mort☠️ ☠️")
-            
             target.die(hero:target, enemyPlayer: enemyPlayer)
-            
         } else {
             print("\(attacker.name) fait \(attacker.weaponDmg) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
         }
     }
     
     //HEAL
-    func heal(attacker:Character, target:Character){
-        
-        //Check is dead or alive
-        if target.health <= 0 {
+    func heal(attacker:Character, target:Character){     
+        if target.health <= 0 {                                                                                     //Check is dead or alive
             print ("☠️ On ne peut pas soigner les morts")
         } else {
             target.health += attacker.weaponDmg
+            
+            if target.health > target.maxHealth {                                                                  //Cannot heal more than initial health
+                target.health = target.maxHealth
+            }
             print("\(attacker.name) soigne \(target.name) de \(attacker.weaponDmg) points de vie. \(target.name) a \(target.health) points de vie.")
         }
     }

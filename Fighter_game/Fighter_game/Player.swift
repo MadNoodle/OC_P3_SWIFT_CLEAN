@@ -22,11 +22,13 @@ class Player {
     init(id:Int){
         self.id = id
     }
-    
+    /**
+ ToDo:Handle the case letters are pressed
+ */
     // function that converts string input to input use to prevent crash when typing out of range input
     func keyInput() -> Int{
-        let input = readLine(); //readLine optionnal
-        return Int(input!)! //Int conversion optionnal do not remove ! !
+        let input = readLine();                                                                                             //readLine optionnal
+        return Int(input!)!                                                                                                 //Int conversion optionnal do not remove ! !
     }
     
     // //////////////////////////  //
@@ -45,18 +47,14 @@ class Player {
             let hero = createHero()
             
             // CONDITIONS TO FULFILL TO CREATE A PLAYER
-            
-            //Name checking for duplicates
-            if playerTeam.contains (where: { $0.name == hero.name }) {
+            if playerTeam.contains (where: { $0.name == hero.name }) {                                                      //Name checking for duplicates
                 print("Ce guerrier existe déjà, Choisissez un autre nom")
             } else {
-                //add hero to team
-                playerTeam.append(hero)
+                playerTeam.append(hero)                                                                                     //add hero to team
                 showTeam()
             }
-            
-            //limit team's size to 3
-            if playerTeam.count == 3 {
+
+            if playerTeam.count == 3 {                                                                                      //limit team's size to 3
                 print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\(self.name) EST PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
             }
         }
@@ -73,8 +71,9 @@ class Player {
             name = nameChamp
             print("Votre héros s'appelle \(nameChamp)")
         }
+        
         // Choose character class
-        repeat {  //Sanity check to prevent out of range input crash
+        repeat {                                                                                                            //Sanity check to prevent out of range input crash
             print ("Quelle est sa profession ?"
                 + "\n1. Guerrier"
                 + "\n2. Mage"
@@ -84,7 +83,7 @@ class Player {
         } while userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4
         
         //Classe selection
-        var classe:Classe!  // assuming the optionnal have a value cf. sanity check
+        var classe:Classe!                                                                                                  // assuming the optionnal have a value cf. sanity check
         switch userChoice {
         case 1:
             classe = .warrior
@@ -98,8 +97,7 @@ class Player {
             break
         }
         
-        //Hero instanciantion
-        let champion = Character(name:name,classe:classe)
+        let champion = Character(name:name,classe:classe)                                                                   //Hero instanciantion
         return champion
     }
     
@@ -125,7 +123,7 @@ class Player {
         }
     }
     
-    // SHOW TEAM STATS DISPLAY 2
+    // SHOW PLAYER TEAM STATS DISPLAY 2
     func displayPlayerChoice(team:[Character]){
         
         for i in team {
@@ -133,7 +131,7 @@ class Player {
             print(" \(index + 1 ). \(self.showTeamDetail(id:index))")
         }
     }
-    
+    // SHOW ENEMY TEAM STATS DISPLAY 2
     func displayEnemyChoice(team:[Character],enemy:Player){
         
         for i in team {
@@ -172,13 +170,10 @@ class Player {
     // ///////////////////  //
     // MARK: FIGHT MECANICS //
     // //////////////////  //
+    
     func fight(enemyPlayer:Player){
-        
-        
-        // Array where we store attacker and target ( will be cleared after each turn)
-        var fighter = [Character]()
-        
-       
+    
+        var fighter = [Character]()                                                                      // Array where we store attacker and target ( will be cleared after each turn)
         
         //1ST STEP :Choose your fighter
         print("Choisissez votre attaquant")
@@ -236,6 +231,7 @@ class Player {
             }
             
         }else{
+            
             //STEP 2B : ATTACK AN ENEMY
             print("Choisissez votre cible")
             displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
@@ -270,11 +266,10 @@ class Player {
     }
     
     
-    //RANDOM SPAWN WEAPON LOGIC
+    // RANDOM SPAWN WEAPON LOGIC
     func randomSpawnWeapon( hero:Character){
-        //array of bonus weapons
-        let bonusWeapons = [
-            //Might be an enum
+        
+        let bonusWeapons = [                                                                                         //array of bonus weapons - Might be an enum
             Weapon(name:"Missile",damages:100),
             Weapon(name:"arc",damages:35),
             Weapon(name:"baguette de pain",damages:2),
@@ -283,12 +278,12 @@ class Player {
             Weapon(name:"oeil de grenouille",damages:25),
             Weapon(name:"sceptre suerpuissant",damages:75)]
         
-        // pick a random number to propose a new weapon
-        if hero.classe == .mage {
-            let randomWeapon = Int(arc4random_uniform(UInt32(3) + 3)) // weapons with index 4 to 6 are for mage
+       
+        if hero.classe == .mage {                                                                                   // pick a random number to propose a new weapon
+            let randomWeapon = Int(arc4random_uniform(UInt32(3) + 3))                                               // weapons with index 4 to 6 are for mage
             vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
         } else{
-            let randomWeapon = Int(arc4random_uniform(UInt32(3))) //weapons with index 0 to 3 are for others
+            let randomWeapon = Int(arc4random_uniform(UInt32(3)))                                                   //weapons with index 0 to 3 are for others
             vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
         }
         
@@ -297,7 +292,8 @@ class Player {
     // VAULT SPAWN
     func vaultSpawn(randomWeapon:Int, hero:Character, bonusWeapons:[Weapon]){
     
-    let interval = Int(arc4random_uniform(UInt32(6))) //Pick a random number for the vault spawning
+    let interval = Int(arc4random_uniform(UInt32(6)))                                                               //Pick a random number for the vault spawning
+       
     //Random sanity check @PARAMS >3
     if interval > 3 {
         print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
@@ -306,8 +302,8 @@ class Player {
         
         //vault message + options spawning in chat
         let attacker = hero
-        //User validation
-        if let choice = readLine(){
+        
+        if let choice = readLine(){                                                                                 //User validation
             switch choice {
             case "1":
                 switchWeapon(hero:attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
@@ -320,6 +316,13 @@ class Player {
     }
 
     }
+    
+    //SWITCH WEAPON
+    func switchWeapon(hero:Character, classWeapon:Weapon, bonusWeapon:Weapon){
+        hero.weapon = bonusWeapon
+        print("VOUS TAPEZ A \(bonusWeapon.damages)PTS DE DOMMAGE")
+    }
+    
     //WINNING CONDITIONS
     func winCheck(){
         if player1.playerTeam.count <= 0 {print("\(player2.name) GAGNE")}
@@ -328,11 +331,7 @@ class Player {
         }
     }
     
-    //SWITCH WEAPON
-    func switchWeapon(hero:Character, classWeapon:Weapon, bonusWeapon:Weapon){
-        hero.weapon = bonusWeapon
-        print("VOUS TAPEZ A \(bonusWeapon.damages)PTS DE DOMMAGE")
-    }
+    
     
    
 }
