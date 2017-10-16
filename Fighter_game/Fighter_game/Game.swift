@@ -38,5 +38,4 @@ class Game {
         else if player2.playerTeam.count <= 0 {print("\(player1.name) GAGNE")}
     }
     
-    
 }

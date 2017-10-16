@@ -25,7 +25,6 @@ class Player {
     
     // function that converts string input to input use to prevent crash when typing out of range input
     func keyInput() -> Int{
-        
         let input = readLine(); //readLine optionnal
         return Int(input!)! //Int conversion optionnal do not remove ! !
     }
@@ -106,8 +105,8 @@ class Player {
     
    
     
-    //SHOW CHAR DETAILS
-    func showTeamDetail (id:Int) ->String {
+    //SHOW CHARACTER DETAILS
+    func showTeamDetail (id:Int) -> String {
         let detail:String
         if playerTeam[id].classe == .mage{
             detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weaponName) - 💧  Soins: \(playerTeam[id].weaponDmg)"
@@ -126,10 +125,20 @@ class Player {
         }
     }
     
-    // display list of characters Different formatting
-    func displayChoice(team:[Character]){
-        for i in 0..<team.count {
-            print(" \(i+1). \(showTeamDetail(id:i))")
+    // SHOW TEAM STATS DISPLAY 2
+    func displayPlayerChoice(team:[Character]){
+        
+        for i in team {
+            let index = team.index{$0 === i}!
+            print(" \(index + 1 ). \(self.showTeamDetail(id:index))")
+        }
+    }
+    
+    func displayEnemyChoice(team:[Character],enemy:Player){
+        
+        for i in team {
+            let index = team.index{$0 === i}!
+            print(" \(index + 1 ). \(enemy.showTeamDetail(id:index))")
         }
     }
     
@@ -141,14 +150,12 @@ class Player {
     
     // Different actions a player can do during a turn
     func turn(enemyPlayer:Player){
-        
-        print ("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
+        print("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
             + "\n Que souhaitez vous faire?"
             + "\n1. 👁 voir l'état de votre équipe"
             + "\n2. ⚔ attaquer")
         
         if let userChoice = readLine(){
-            
             switch userChoice {
             case "1":
                 showTeam()
@@ -168,10 +175,10 @@ class Player {
         // Array where we store attacker and target ( will be cleared after each turn)
         var fighter = [Character]()
         let bonusWeapon = [Weapon(name:"Missile",damages:100), Weapon(name:"arc",damages:35), Weapon(name:"baguette de pain",damages:2), Weapon(name:"Petite cuillère",damages:1)]
- 
-        //Choose your fighter
+        
+        //1ST STEP :Choose your fighter
         print("Choisissez votre attaquant")
-        displayChoice(team:self.playerTeam)
+        displayPlayerChoice(team:self.playerTeam)
         if let choice = readLine(){
             var attacker:Character
             
@@ -190,14 +197,13 @@ class Player {
             }
             
         }
-        
-       
-        // Random spawn a vault
-        randomSpawnWeapon(bonusWeapons:bonusWeapon)
+
+        //RANDOM STEP: Random spawn a vault
+        randomSpawnWeapon(bonusWeapons:bonusWeapon, hero: fighter[0])
         if fighter[0].classe == .mage {
-            //Choose your fighter
+            //HEAL A TEAMMATE
             print("Choisissez la personne que vous voulez soigner")
-            displayChoice(team:self.playerTeam)
+            displayPlayerChoice(team:self.playerTeam)
             
             if let choice = readLine(){
                 var target:Character
@@ -226,9 +232,9 @@ class Player {
             }
             
         }else{
-            //Choose your victim
+            //ATTACK AN ENEMY
             print("Choisissez votre cible")
-            displayChoice(team:enemyPlayer.playerTeam)
+            displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
             
             if let choice = readLine(){
                 var target:Character
@@ -257,15 +263,12 @@ class Player {
     }
     
     
- 
-    
-
-    
-    //RANDOM SPAWN WEAPON
-    func randomSpawnWeapon(bonusWeapons:[Weapon]){
+    //RANDOM SPAWN WEAPON LOGIC
+    func randomSpawnWeapon(bonusWeapons:[Weapon], hero:Character){
         let interval = Int(arc4random_uniform(UInt32(6)))
         let randomWeapon = Int(arc4random_uniform(UInt32(3)))
-        print ("\u{001B}[0;32m\(interval)\u{001B}[0;37m")
+        let attacker = hero
+        print ("\u{001B}[0;32m ROLL \(interval)\u{001B}[0;37m")
         
         if interval > 3 {
             print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
@@ -276,9 +279,9 @@ class Player {
                 switch choice {
                 case "1":
                     print("je change d arme")
-                // switchWeapon(hero:attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
+                    switchWeapon(hero:attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
                 case "2":
-                    print("")
+                    print("Je refrme le ")
                 default:
                     print("Je ne comprends pas")
                 }
@@ -286,7 +289,11 @@ class Player {
         }
     }
     
-  
+    //SWITCH WEAPON
+    func switchWeapon(hero:Character, classWeapon:Weapon, bonusWeapon:Weapon){
+        hero.weapon = bonusWeapon
+        print("VOUS TAPEZ A \(bonusWeapon.damages)PTS DE DOMMAGE")
+    }
     
    
 }

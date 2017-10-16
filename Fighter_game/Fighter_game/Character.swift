@@ -93,9 +93,5 @@ class Character {
         }
     }
     
-    //    //SWITCH WEAPON
-    //    func switchWeapon(hero:Character, classWeapon:Weapon, bonusWeapon:Weapon){
-    //        fighterWeapon.append(classWeapon)
-    //        character.weapon = bonusWeapon
-    //    }
+    
 }
