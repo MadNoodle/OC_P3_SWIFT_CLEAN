@@ -12,6 +12,7 @@
 		B9418A4D1F94AE97008737E3 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A4C1F94AE97008737E3 /* Character.swift */; };
 		B9418A4F1F94AF21008737E3 /* Classe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A4E1F94AF21008737E3 /* Classe.swift */; };
 		B9418A511F94AF3A008737E3 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A501F94AF3A008737E3 /* Weapon.swift */; };
+		B9418A531F94EE3E008737E3 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A521F94EE3E008737E3 /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,7 @@
 		B9418A4C1F94AE97008737E3 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		B9418A4E1F94AF21008737E3 /* Classe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classe.swift; sourceTree = "<group>"; };
 		B9418A501F94AF3A008737E3 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		B9418A521F94EE3E008737E3 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				B9418A431F94AC90008737E3 /* main.swift */,
+				B9418A521F94EE3E008737E3 /* Game.swift */,
 				B9418A4A1F94AE04008737E3 /* Player.swift */,
 				B9418A4C1F94AE97008737E3 /* Character.swift */,
 				B9418A4E1F94AF21008737E3 /* Classe.swift */,
@@ -133,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9418A511F94AF3A008737E3 /* Weapon.swift in Sources */,
+				B9418A531F94EE3E008737E3 /* Game.swift in Sources */,
 				B9418A4D1F94AE97008737E3 /* Character.swift in Sources */,
 				B9418A4B1F94AE04008737E3 /* Player.swift in Sources */,
 				B9418A4F1F94AF21008737E3 /* Classe.swift in Sources */,

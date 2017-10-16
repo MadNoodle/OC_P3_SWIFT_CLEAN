@@ -23,6 +23,10 @@ class Character {
     var weapon : Weapon //class weapon
     var weaponName : String // weapon name
     var weaponDmg : Int //weapon damages
+    /**
+ ToDo:Définir PV max
+ */
+    
     
     init(name:String, classe : Classe){
         self.name = name
@@ -55,4 +59,43 @@ class Character {
             self.weaponDmg = weapon.damages
         }
     }
+    
+    // ATTACK => DO DAMAGES
+    func attack(attacker:Character, target:Character, enemyPlayer : Player){
+        //Deal Damage
+        target.health -= attacker.weaponDmg
+        //Check if the character dies
+        if target.health <= 0 {
+            print ("☠️  \(target.name) est mort☠️ ☠️")
+            target.die(hero:target, enemyPlayer: enemyPlayer)
+            
+        } else {
+            print("\(attacker.name) fait \(attacker.weaponDmg) points de dommage à\(target.name). il lui reste \(target.health) points de vie.")
+        }
+    }
+    
+    //HEAL
+    func heal(attacker:Character, target:Character){
+        
+        //Check is dead or alive
+        if target.health <= 0 {
+            print ("☠️ On ne peut pas soigner les morts")
+        } else {
+            target.health += attacker.weaponDmg
+            print("\(attacker.name) soigne \(target.name) de \(attacker.weaponDmg) points de vie. \(target.name) a \(target.health) points de vie.")
+        }
+    }
+    
+    //DESTROY HERO
+    func die(hero:Character,enemyPlayer: Player){
+        if let index = enemyPlayer.playerTeam.index(where: { $0.name == hero.name }) {
+            enemyPlayer.playerTeam.remove(at: index)
+        }
+    }
+    
+    //    //SWITCH WEAPON
+    //    func switchWeapon(hero:Character, classWeapon:Weapon, bonusWeapon:Weapon){
+    //        fighterWeapon.append(classWeapon)
+    //        character.weapon = bonusWeapon
+    //    }
 }
