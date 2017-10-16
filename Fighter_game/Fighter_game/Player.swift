@@ -173,9 +173,12 @@ class Player {
     // MARK: FIGHT MECANICS //
     // //////////////////  //
     func fight(enemyPlayer:Player){
+        
+        
         // Array where we store attacker and target ( will be cleared after each turn)
         var fighter = [Character]()
-        let bonusWeapon = [Weapon(name:"Missile",damages:100), Weapon(name:"arc",damages:35), Weapon(name:"baguette de pain",damages:2), Weapon(name:"Petite cuillère",damages:1)]
+        
+       
         
         //1ST STEP :Choose your fighter
         print("Choisissez votre attaquant")
@@ -196,13 +199,13 @@ class Player {
             default:
                 print("Je ne comprends pas")
             }
-            
         }
 
         //RANDOM STEP: Random spawn a vault
-        randomSpawnWeapon(bonusWeapons:bonusWeapon, hero: fighter[0])
+        randomSpawnWeapon(hero: fighter[0])
+        
+        //STEP 2A : HEAL A TEAMMATE
         if fighter[0].classe == .mage {
-            //HEAL A TEAMMATE
             print("Choisissez la personne que vous voulez soigner")
             displayPlayerChoice(team:self.playerTeam)
             
@@ -233,7 +236,7 @@ class Player {
             }
             
         }else{
-            //ATTACK AN ENEMY
+            //STEP 2B : ATTACK AN ENEMY
             print("Choisissez votre cible")
             displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
             
@@ -268,31 +271,55 @@ class Player {
     
     
     //RANDOM SPAWN WEAPON LOGIC
-    func randomSpawnWeapon(bonusWeapons:[Weapon], hero:Character){
-        let interval = Int(arc4random_uniform(UInt32(6)))
-        let randomWeapon = Int(arc4random_uniform(UInt32(3)))
-        let attacker = hero
-        print ("\u{001B}[0;32m ROLL \(interval)\u{001B}[0;37m")
+    func randomSpawnWeapon( hero:Character){
+        //array of bonus weapons
+        let bonusWeapons = [
+            //Might be an enum
+            Weapon(name:"Missile",damages:100),
+            Weapon(name:"arc",damages:35),
+            Weapon(name:"baguette de pain",damages:2),
+            Weapon(name:"Petite cuillère",damages:1),
+            Weapon(name:"poudre magique",damages:50),
+            Weapon(name:"oeil de grenouille",damages:25),
+            Weapon(name:"sceptre suerpuissant",damages:75)]
         
-        if interval > 3 {
-            print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
-                + "\n1. Vous vous équipez avec \(bonusWeapons[randomWeapon].name)"
-                + "\n2. Vous gardez votre arme\u{001B}[0;37m")
-            
-            if let choice = readLine(){
-                switch choice {
-                case "1":
-                    print("je change d arme")
-                    switchWeapon(hero:attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
-                case "2":
-                    print("Je refrme le ")
-                default:
-                    print("Je ne comprends pas")
-                }
+        // pick a random number to propose a new weapon
+        if hero.classe == .mage {
+            let randomWeapon = Int(arc4random_uniform(UInt32(3) + 3)) // weapons with index 4 to 6 are for mage
+            vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
+        } else{
+            let randomWeapon = Int(arc4random_uniform(UInt32(3))) //weapons with index 0 to 3 are for others
+            vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
+        }
+        
+    }
+    
+    // VAULT SPAWN
+    func vaultSpawn(randomWeapon:Int, hero:Character, bonusWeapons:[Weapon]){
+    
+    let interval = Int(arc4random_uniform(UInt32(6))) //Pick a random number for the vault spawning
+    //Random sanity check @PARAMS >3
+    if interval > 3 {
+        print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
+            + "\n1. Vous vous équipez avec \(bonusWeapons[randomWeapon].name)"
+            + "\n2. Vous gardez votre arme\u{001B}[0;37m")
+        
+        //vault message + options spawning in chat
+        let attacker = hero
+        //User validation
+        if let choice = readLine(){
+            switch choice {
+            case "1":
+                switchWeapon(hero:attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
+            case "2":
+                print("Je referme le coffre ")
+            default:
+                print("Je ne comprends pas")
             }
         }
     }
-    
+
+    }
     //WINNING CONDITIONS
     func winCheck(){
         if player1.playerTeam.count <= 0 {print("\(player2.name) GAGNE")}
