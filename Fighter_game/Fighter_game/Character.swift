@@ -67,6 +67,7 @@ class Character {
         //Check if the character dies
         if target.health <= 0 {
             print ("☠️  \(target.name) est mort☠️ ☠️")
+            
             target.die(hero:target, enemyPlayer: enemyPlayer)
             
         } else {

@@ -28,14 +28,15 @@ class Game {
         player2.createPlayerTeam()
         
         //TURN BY TURN LOGIC
-        while player1.playerTeam.count>0 || player2.playerTeam.count>0{
-            player1.turn(enemyPlayer:player2)
-            player2.turn(enemyPlayer:player1)
+        while player1.playerTeam.count>0 && player2.playerTeam.count>0{
+            player1.turn(enemyPlayer:player2) // player 1 plays
+            
+            if player2.playerTeam.count>0 { // Condition to interrupt if player 2 loses
+            player2.turn(enemyPlayer:player1) // player 1 plays
+            
+        }
         }
         
-        //WINNING CONDITIONS
-        if player1.playerTeam.count <= 0 {print("\(player2.name) GAGNE")}
-        else if player2.playerTeam.count <= 0 {print("\(player1.name) GAGNE")}
     }
     
 }

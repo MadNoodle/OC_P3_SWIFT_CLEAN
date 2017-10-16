@@ -162,6 +162,7 @@ class Player {
                 turn(enemyPlayer:enemyPlayer)
             case "2":
                 fight(enemyPlayer:enemyPlayer)
+                winCheck()
             default:
                 print("Je ne comprends pas")
             }
@@ -245,16 +246,19 @@ class Player {
                     fighter.append(target)
                     target.attack(attacker:fighter[0], target:fighter[1], enemyPlayer: enemyPlayer)
                     fighter.removeAll()
+                    print (enemyPlayer.playerTeam)
                 case "2":
                     target = enemyPlayer.playerTeam[1]
                     fighter.append(target)
                     target.attack(attacker:fighter[0], target:fighter[1], enemyPlayer: enemyPlayer)
                     fighter.removeAll()
+                    print (enemyPlayer.playerTeam)
                 case "3":
                     target = enemyPlayer.playerTeam[2]
                     fighter.append(target)
                     target.attack(attacker:fighter[0], target:fighter[1], enemyPlayer: enemyPlayer)
                     fighter.removeAll()
+                    print (enemyPlayer.playerTeam)
                 default:
                     print("Je ne comprends pas")
                 }
@@ -286,6 +290,14 @@ class Player {
                     print("Je ne comprends pas")
                 }
             }
+        }
+    }
+    
+    //WINNING CONDITIONS
+    func winCheck(){
+        if player1.playerTeam.count <= 0 {print("\(player2.name) GAGNE")}
+        else if player2.playerTeam.count <= 0 {print("\(player1.name) GAGNE")
+            
         }
     }
     
