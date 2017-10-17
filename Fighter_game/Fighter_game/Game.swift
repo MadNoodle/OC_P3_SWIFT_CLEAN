@@ -14,29 +14,49 @@ import Foundation
 // ///////////////  //
 
 class Game {
-    var player1:Player
-    var player2:Player
+  ///first player to play
+  var player1:Player
+  ///second player to play
+  var player2:Player
+
+  init(player1:Player, player2:Player){
+      self.player1 = player1
+      self.player2 = player2
+  }
+
+/**
+ this function create a New Game.
+ ## What is a game ? ##
+ * Two players -> instances of class Player
+ * play one after the other -> calls Player's function turn()
+ * the game ends when all the characters of one player team are dead -> each turn we check player's team count
+ * We check for winning conditions each turn calling winCheck
+ */
+  func newGame(){
+      player1.createPlayerTeam()
+      player2.createPlayerTeam()
     
-    init(player1:Player, player2:Player){
-        self.player1 = player1
-        self.player2 = player2
-    }
-    
-    //Launch a new Game
-    func newGame(){
-        player1.createPlayerTeam()
-        player2.createPlayerTeam()
-        
-        //TURN BY TURN LOGIC
-        while player1.playerTeam.count>0 && player2.playerTeam.count>0{
-            player1.turn(enemyPlayer:player2) // player 1 plays
-            
-            if player2.playerTeam.count>0 { // Condition to interrupt if player 2 loses
-            player2.turn(enemyPlayer:player1) // player 1 plays
-            
+      //TURN BY TURN LOGIC
+      while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
+          // player 1 plays
+          player1.turn(enemyPlayer:player2)
+          winCheck()
+          // Condition to interrupt loop if player 2 loses
+          if player2.playerTeam.count>0 {
+          // player 2 plays
+          player2.turn(enemyPlayer:player1)
+          winCheck()
         }
-        }
-        
+      }
+  }
+  
+/**
+Contains the winning conditions.
+if a player's team array is empty the player has lost
+*/
+  func winCheck(){
+    if player1.playerTeam.count <= 0 {print("\(player2.name) GAGNE")}
+    else if player2.playerTeam.count <= 0 {print("\(player1.name) GAGNE")}
     }
-    
-}
+  
+  }

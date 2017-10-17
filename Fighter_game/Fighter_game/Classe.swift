@@ -8,8 +8,7 @@
 
 import Foundation
 
-
-//Enum of all classes
+///Enum of all classes
 enum Classe {
     case warrior, mage, colossus, dwarf
 }
