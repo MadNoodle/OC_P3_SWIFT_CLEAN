@@ -116,23 +116,65 @@ This function is used to create a team. It send all the paramaters to instantiat
     
       //Classe selection
       // assuming the optionnal have a value cf. sanity check
-      var classe:Classe!
+      var classe: Classe!
+      var agility = 0
+      var force = 0
+      var intelligence = 0
+      var wizardry = 0
       switch userChoice {
       case 1:
-          classe = .warrior
+        classe = .warrior
+        repeat {
+          print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+          + "\n Combien de points voulez vous attribuez en Force?")
+          force = keyInput()
+          print("Combien de points voulez vous attribuez en Agilité?")
+          agility = keyInput()
+          intelligence = 0
+          wizardry = 0
+        }while (agility + force + intelligence + wizardry) != 10
       case 2:
-          classe = .mage
+        classe = .mage
+        repeat {
+        print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+          + "\n Combien de points voulez vous attribuez en intelligence?")
+          intelligence = keyInput()
+          print("Combien de points voulez vous attribuez en Sorcellerie?")
+          wizardry = keyInput()
+          force = 0
+          agility = 0
+        } while (agility + force + intelligence + wizardry) != 10
       case 3:
-          classe = .colossus
+        classe = .colossus
+        repeat {
+          print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+          + "\n Combien de points voulez vous attribuez en Force?")
+          force = keyInput()
+          print("Combien de points voulez vous attribuez en Sorcellerie?")
+          wizardry = keyInput()
+          intelligence = 0
+          agility = 0
+          }while (agility + force + intelligence + wizardry) != 10
       case 4:
           classe = .dwarf
+          repeat{
+            print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+              + "\n Combien de points voulez vous attribuez en Force?")
+              agility = keyInput()
+              print("Combien de points voulez vous attribuez en Agilité?")
+              force = keyInput()
+              intelligence = 0
+              wizardry = 0
+            }while (agility + force + intelligence + wizardry) != 10
       default:
-          break
+        break
       }
+    
+    //Caracteristic attribution
       //Hero instanciantion
-      let champion = Character(name:name,classe:classe)
-      //Return Object
-      return champion
+    let champion = Character(name:name,classe:classe, agility: agility, force: force, intelligence: intelligence, wizardry: wizardry)
+    //Return Object
+    return champion
   }
     
    
@@ -276,6 +318,7 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
 
         //RANDOM STEP: Random spawn a vault
         randomSpawnWeapon(hero: fighters[0])
+      
         
         //STEP 2A : HEAL A TEAMMATE
         if fighters[0].classe == .mage {
@@ -290,17 +333,20 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
                     target = self.playerTeam[0]
                     fighters.append(target)
                     target.heal(attacker:fighters[0], target:fighters[1])
+                    fighters[0].characterAttackReset()
                     fighters.removeAll()
                     
                 case "2":
                     target = self.playerTeam[1]
                     fighters.append(target)
                     target.heal(attacker:fighters[0], target:fighters[1])
+                    fighters[0].characterAttackReset()
                     fighters.removeAll()
                 case "3":
                     target = self.playerTeam[2]
                     fighters.append(target)
                     target.heal(attacker:fighters[0], target:fighters[1])
+                    fighters[0].characterAttackReset()
                     fighters.removeAll()
                 default:
                     print("Je ne comprends pas")
@@ -322,18 +368,23 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
                     target = enemyPlayer.playerTeam[0]
                     fighters.append(target)
                     target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                    // if damages has been changed by a class ability. We reset his damages to his weapon damages
+                    fighters[0].characterAttackReset()
+                    // Clear the array after fight
                     fighters.removeAll()
                   
                 case "2":
                     target = enemyPlayer.playerTeam[1]
                     fighters.append(target)
                     target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                    fighters[0].characterAttackReset()
                     fighters.removeAll()
                
                 case "3":
                     target = enemyPlayer.playerTeam[2]
                     fighters.append(target)
                     target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                    fighters[0].characterAttackReset()
                     fighters.removeAll()
                   
                 default:
