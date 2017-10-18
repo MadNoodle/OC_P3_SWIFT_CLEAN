@@ -255,12 +255,12 @@ This function allows the character to change equip a new weapon when a vault spa
         target.maxHealth += buff
         print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe REVIGORATION")
       case .colossus:
-        let shield = (caracteristic2 + (caracteristic1 / caracteristic2))
+        let shield = (caracteristic2 * 2 + (caracteristic1 / caracteristic2))
         attacker.weaponDmg -= shield
         print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe MURAILLE")
       case .dwarf:
         attacker.weaponDmg = 0
-        let riposte = (1 + ((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
+        let riposte = caracteristic1 * (((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
         attacker.health -= riposte
         print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe PARADE RIPOSTE. Il reçoit \(attacker.weaponDmg) points de dégats. Puis il lance férocement sa hache sur \(attacker.name) et lui inflige \(riposte) points de dégats")
       }
