@@ -8,11 +8,6 @@
 
 import Foundation
 
-
-  // ///////////////  //
-  // MARK: PLAYERS //
-  // ///////////////  //
-
 class Player {
     /// Int number use to identify player
     var id : Int
@@ -20,28 +15,26 @@ class Player {
     var name = ""
     var playerTeam = [Character]()
     
-    
+
     init(id:Int){
         self.id = id
     }
     
 /**
  Function that converts string input to input use to prevent crash when typing out of range input
- 
  # WARNING #
  Int conversion return an optionnal DO NOT REMOVE ! !
  * ToDo:Handle the case letters are pressed
  */
-  func keyInput() -> Int{
-      let input = readLine();
+  public func keyInput() -> Int{
+   let input = readLine()
       return Int(input!)!
   }
-    
-    
+  
 /**
  Function prompts user to enter his name
  */
-  func playerName() {
+ public func playerName() {
       print("QUEL EST LE NOM DU JOUEUR \(self.id)?")
       if let playerName = readLine(){
           self.name = playerName
@@ -58,7 +51,7 @@ Conditions to fullfill to create a player
 * There can't be 2 warriors with the same name in the same team
 * Team's count cannot exceed 3
 */
-  func createPlayerTeam(){
+ public func createPlayerTeam(){
       // ask for player to enter his name
       playerName()
     
@@ -86,9 +79,10 @@ Conditions to fullfill to create a player
 /**
 This function is used to create a team. It send all the paramaters to instantiate a hero
 * asks for a name
-* aks for user to elect a class
+* aks for user to select a class
+* ask the player to dispatch 10 pts in 2 class caracteritics
 */
-  func createHero() -> Character{
+ private func createHero() -> Character{
       ///User keyboard input
       var userChoice:Int
     
@@ -126,9 +120,9 @@ This function is used to create a team. It send all the paramaters to instantiat
         classe = .warrior
         repeat {
           print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en Force?")
+          + "\n Combien de points voulez vous attribuez en FORCE?")
           force = keyInput()
-          print("Combien de points voulez vous attribuez en Agilité?")
+          print("Combien de points voulez vous attribuez en AGILITE?")
           agility = keyInput()
           intelligence = 0
           wizardry = 0
@@ -137,9 +131,9 @@ This function is used to create a team. It send all the paramaters to instantiat
         classe = .mage
         repeat {
         print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en intelligence?")
+          + "\n Combien de points voulez vous attribuez en INTELLIGENCE?")
           intelligence = keyInput()
-          print("Combien de points voulez vous attribuez en Sorcellerie?")
+          print("Combien de points voulez vous attribuez en SORCELLERIE?")
           wizardry = keyInput()
           force = 0
           agility = 0
@@ -148,9 +142,9 @@ This function is used to create a team. It send all the paramaters to instantiat
         classe = .colossus
         repeat {
           print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en Force?")
+          + "\n Combien de points voulez vous attribuez en FORCE?")
           force = keyInput()
-          print("Combien de points voulez vous attribuez en Sorcellerie?")
+          print("Combien de points voulez vous attribuez en SORCELLERIE?")
           wizardry = keyInput()
           intelligence = 0
           agility = 0
@@ -159,9 +153,9 @@ This function is used to create a team. It send all the paramaters to instantiat
           classe = .dwarf
           repeat{
             print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-              + "\n Combien de points voulez vous attribuez en Force?")
+              + "\n Combien de points voulez vous attribuez en FORCE?")
               agility = keyInput()
-              print("Combien de points voulez vous attribuez en Agilité?")
+              print("Combien de points voulez vous attribuez en AGILITE?")
               force = keyInput()
               intelligence = 0
               wizardry = 0
@@ -170,7 +164,6 @@ This function is used to create a team. It send all the paramaters to instantiat
         break
       }
     
-    //Caracteristic attribution
       //Hero instanciantion
     let champion = Character(name:name,classe:classe, agility: agility, force: force, intelligence: intelligence, wizardry: wizardry)
     //Return Object
@@ -181,7 +174,7 @@ This function is used to create a team. It send all the paramaters to instantiat
 /**
 Show Character details. There are 2 types :
 * mage
-* warrior
+* others
 
 it shows the following values:
 * name
@@ -189,8 +182,13 @@ it shows the following values:
 * updated health
 * weapon
 * damages ( linked to weapon)
+   
+ - Parameters:
+   - id: index of hero in playerTeam array
+   
+ - Return: String
 */
-  func showTeamDetail (id:Int) -> String {
+  private func showTeamDetail (id:Int) -> String {
       ///detailed caracteristics displayed on one line
       let detail:String
     
@@ -201,12 +199,10 @@ it shows the following values:
       return detail
   }
   
-
-    
 /**
 Show team composition. This display is used while player compose his team
 */
-  func showTeam() {
+  private func showTeam() {
       // Iterates throught playerTeam array to display every characters alive
       for i in 0..<playerTeam.count {
           print("\n"
@@ -217,22 +213,27 @@ Show team composition. This display is used while player compose his team
       }
   }
 
-  
-
 /**
 Show current player team composition. This display is used while is fighting
+   
+ - Parameters:
+   - team: Array of character
 */
-  func displayPlayerChoice(team:[Character]){
+  private func displayPlayerChoice(team:[Character]){
     
       for i in team {
           let index = team.index{$0 === i}!
           print(" \(index + 1 ). \(self.showTeamDetail(id:index))")
       }
   }
+  
 /**
 Show current enemy team composition. This display is used while is fighting
+ - Parameters:
+   - team: Array of character
+   - enemy: opposite player
 */
-  func displayEnemyChoice(team:[Character],enemy:Player){
+  private func displayEnemyChoice(team:[Character],enemy:Player){
     
       for i in team {
           let index = team.index{$0 === i}!
@@ -251,11 +252,11 @@ Contains all the mecanics in a turn
 * attack or heal
 ### Notice ###
 * if players display team a loop is called to prompt turn() again
-
-
 The function takes one parameter enemyPlayer to take in consideration the two players character in attack function
+ - Parameters:
+   - enemyPlayer: opposite player
 */
-  func turn(enemyPlayer:Player){
+ internal func turn(enemyPlayer:Player){
       print("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
           + "\n Que souhaitez vous faire?"
           + "\n1. 👁 voir l'état de votre équipe"
@@ -290,111 +291,111 @@ The function attack and heal take these objects as parameters.
 ### Warning ###
 At the end of each action the fighter array is cleared
 The function takes one parameter enemyPlayer to take in consideration the two players character in attack function
+ - Parameters:
+   - enemyPlayer: opposite player
 */
-    func fight(enemyPlayer:Player){
-        /// Array where we store attacker and target ( will be cleared after each turn)
-        var fighters = [Character]()
+ private func fight(enemyPlayer:Player){
+      /// Array where we store attacker and target ( will be cleared after each turn)
+      var fighters = [Character]()
+  
+      //1ST STEP :Choose your fighter
+      print("Choisissez votre attaquant")
+      displayPlayerChoice(team:self.playerTeam)
+      if let choice = readLine(){
+          var attacker:Character
         
-        //1ST STEP :Choose your fighter
-        print("Choisissez votre attaquant")
-        displayPlayerChoice(team:self.playerTeam)
-        if let choice = readLine(){
-            var attacker:Character
-            
-            switch choice {
-            case "1":
-                attacker = self.playerTeam[0]
-                fighters.append(attacker)
-           case "2":
-                attacker = self.playerTeam[1]
-                fighters.append(attacker)
-            case "3":
-                attacker = self.playerTeam[2]
-                fighters.append(attacker)
-            default:
-                print("Je ne comprends pas")
-            }
-        }
+          switch choice {
+          case "1":
+              attacker = self.playerTeam[0]
+              fighters.append(attacker)
+         case "2":
+              attacker = self.playerTeam[1]
+              fighters.append(attacker)
+          case "3":
+              attacker = self.playerTeam[2]
+              fighters.append(attacker)
+          default:
+              print("Je ne comprends pas")
+          }
+      }
 
-        //RANDOM STEP: Random spawn a vault
-        randomSpawnWeapon(hero: fighters[0])
-      
+      //RANDOM STEP: Random spawn a vault
+      randomSpawnWeapon(hero: fighters[0])
+  
+      //STEP 2A : HEAL A TEAMMATE
+      if fighters[0].classe == .mage {
+          print("Choisissez la personne que vous voulez soigner")
+          displayPlayerChoice(team:self.playerTeam)
         
-        //STEP 2A : HEAL A TEAMMATE
-        if fighters[0].classe == .mage {
-            print("Choisissez la personne que vous voulez soigner")
-            displayPlayerChoice(team:self.playerTeam)
+          if let choice = readLine(){
+              var target:Character
             
-            if let choice = readLine(){
-                var target:Character
+              switch choice {
+              case "1":
+                  target = self.playerTeam[0]
+                  fighters.append(target)
+                  target.heal(attacker:fighters[0], target:fighters[1])
+                  fighters[0].characterAttackReset()
+                  fighters.removeAll()
                 
-                switch choice {
-                case "1":
-                    target = self.playerTeam[0]
-                    fighters.append(target)
-                    target.heal(attacker:fighters[0], target:fighters[1])
-                    fighters[0].characterAttackReset()
-                    fighters.removeAll()
-                    
-                case "2":
-                    target = self.playerTeam[1]
-                    fighters.append(target)
-                    target.heal(attacker:fighters[0], target:fighters[1])
-                    fighters[0].characterAttackReset()
-                    fighters.removeAll()
-                case "3":
-                    target = self.playerTeam[2]
-                    fighters.append(target)
-                    target.heal(attacker:fighters[0], target:fighters[1])
-                    fighters[0].characterAttackReset()
-                    fighters.removeAll()
-                default:
-                    print("Je ne comprends pas")
-                }
+              case "2":
+                  target = self.playerTeam[1]
+                  fighters.append(target)
+                  target.heal(attacker:fighters[0], target:fighters[1])
+                  fighters[0].characterAttackReset()
+                  fighters.removeAll()
+              case "3":
+                  target = self.playerTeam[2]
+                  fighters.append(target)
+                  target.heal(attacker:fighters[0], target:fighters[1])
+                  fighters[0].characterAttackReset()
+                  fighters.removeAll()
+              default:
+                  print("Je ne comprends pas")
+              }
+            
+          }
+        
+      }else{
+        
+          //STEP 2B : ATTACK AN ENEMY
+          print("Choisissez votre cible")
+          displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
+        
+          if let choice = readLine(){
+              var target:Character
+            
+              switch choice {
+              case "1":
+                  target = enemyPlayer.playerTeam[0]
+                  fighters.append(target)
+                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                  // if damages has been changed by a class ability. We reset his damages to his weapon damages
+                  fighters[0].characterAttackReset()
+                  // Clear the array after fight
+                  fighters.removeAll()
                 
-            }
-            
-        }else{
-            
-            //STEP 2B : ATTACK AN ENEMY
-            print("Choisissez votre cible")
-            displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
-            
-            if let choice = readLine(){
-                var target:Character
+              case "2":
+                  target = enemyPlayer.playerTeam[1]
+                  fighters.append(target)
+                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                  fighters[0].characterAttackReset()
+                  fighters.removeAll()
+             
+              case "3":
+                  target = enemyPlayer.playerTeam[2]
+                  fighters.append(target)
+                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+                  fighters[0].characterAttackReset()
+                  fighters.removeAll()
                 
-                switch choice {
-                case "1":
-                    target = enemyPlayer.playerTeam[0]
-                    fighters.append(target)
-                    target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                    // if damages has been changed by a class ability. We reset his damages to his weapon damages
-                    fighters[0].characterAttackReset()
-                    // Clear the array after fight
-                    fighters.removeAll()
-                  
-                case "2":
-                    target = enemyPlayer.playerTeam[1]
-                    fighters.append(target)
-                    target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                    fighters[0].characterAttackReset()
-                    fighters.removeAll()
-               
-                case "3":
-                    target = enemyPlayer.playerTeam[2]
-                    fighters.append(target)
-                    target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                    fighters[0].characterAttackReset()
-                    fighters.removeAll()
-                  
-                default:
-                    print("Je ne comprends pas")
-                }
-            }
-        }
-    }
+              default:
+                  print("Je ne comprends pas")
+              }
+          }
+      }
+  }
 
-    
 /**
 This function contains all the vault content
 
@@ -402,58 +403,61 @@ The content of the vault depends on the class of the attacker.
 all the custom weapons are stored in an array of Weapons called bonusWeapon
 * index from 0 to 3 are warrior's weapons
 * index from 4 to 6 are mage's weapons
+ - Parameters:
+   - hero: currently attacking Character
 */
-    // RANDOM SPAWN WEAPON LOGIC
-    func randomSpawnWeapon( hero:Character){
-        ///array of bonus weapons - Might be an enum
-        let bonusWeapons = [Missile(),Arc(),Baguette(), Spoon(),Powder(),FrogEye(),
-            Scepter()]
-        
-       // pick a random number to propose a new weapon
-        if hero.classe == .mage {
-            ///weapons with index 4 to 6 are for mage
-            let randomWeaponMage = Int(arc4random_uniform(UInt32(3) + 3))
-            vaultSpawn(randomWeapon:randomWeaponMage, hero:hero, bonusWeapons:bonusWeapons)
-        } else{
-            ///weapons with index 0 to 3 are for others
-            let randomWeapon = Int(arc4random_uniform(UInt32(3)))
-            vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
-        }
-        
-    }
+  private func randomSpawnWeapon( hero:Character){
+      ///array of bonus weapons - Might be an enum
+      let bonusWeapons = [Missile(),Arc(),Baguette(), Spoon(),Powder(),FrogEye(),
+          Scepter()]
     
-  /**
-   This function spaws the vault and handle the different options
-   Each turn this function is called after the attacker is defined. it rolls a Interval in a range from 0 to 6. if the number is above 3 the vault spawns.
-   * you can equip the weapon
-   * or close the vault
-   and you to the next step in turn ( STEP 2)
-   */
-    func vaultSpawn(randomWeapon:Int, hero:Character, bonusWeapons:[Weapon]){
-    ///Pick a random number for the vault spawning
-    let interval = Int(arc4random_uniform(UInt32(6)))
-       
-    //Random sanity check
-    if interval > 3 {
-        print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
-            + "\n1. Vous vous équipez avec \(bonusWeapons[randomWeapon].name)"
-            + "\n2. Vous gardez votre arme\u{001B}[0;37m")
-        
-        //vault message + options spawning in chat
-        let attacker = hero
-        //User validation
-        if let choice = readLine(){
-            switch choice {
-            case "1":
-              attacker.switchWeapon(hero: attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
-            case "2":
-                print("Je referme le coffre ")
-            default:
-                print("Je ne comprends pas")
-            }
-        }
-    }
-
-    }
-   
+     // pick a random number to propose a new weapon
+      if hero.classe == .mage {
+          ///weapons with index 4 to 6 are for mage
+          let randomWeaponMage = Int(arc4random_uniform(UInt32(3) + 3))
+          vaultSpawn(randomWeapon:randomWeaponMage, hero:hero, bonusWeapons:bonusWeapons)
+      } else{
+          ///weapons with index 0 to 3 are for others
+          let randomWeapon = Int(arc4random_uniform(UInt32(3)))
+          vaultSpawn(randomWeapon:randomWeapon, hero:hero, bonusWeapons:bonusWeapons)
+      }
+    
+  }
+    
+/**
+ This function spaws the vault and handle the different options
+ Each turn this function is called after the attacker is defined. it rolls a Interval in a range from 0 to 6. if the number is above 3 the vault spawns.
+ * you can equip the weapon
+ * or close the vault
+ and you go to the next step in turn ( STEP 2)
+ - Parameters:
+     - hero: currently attacking Character
+     - randomWeapon: random Int to choose a weapon in bonus Weapon Array
+     - bonusWeapons: Array that contains all the bonus weapons
+ */
+  private func vaultSpawn(randomWeapon:Int, hero:Character, bonusWeapons:[Weapon]){
+  ///Pick a random number for the vault spawning
+  let interval = Int(arc4random_uniform(UInt32(6)))
+    
+  //Random sanity check
+  if interval > 3 {
+      print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
+          + "\n1. Vous vous équipez avec \(bonusWeapons[randomWeapon].name)"
+          + "\n2. Vous gardez votre arme\u{001B}[0;37m")
+    
+      //vault message + options spawning in chat
+      let attacker = hero
+      //User validation
+      if let choice = readLine(){
+          switch choice {
+          case "1":
+            attacker.switchWeapon(hero: attacker,classWeapon:attacker.weapon, bonusWeapon: bonusWeapons[randomWeapon])
+          case "2":
+              print("Je referme le coffre ")
+          default:
+              print("Je ne comprends pas")
+          }
+      }
+  }
+  }
 }

@@ -10,7 +10,7 @@
 /**
  List all the character classes
  */
-enum Classe {
+public enum Classe {
   case warrior
   case mage
   case colossus

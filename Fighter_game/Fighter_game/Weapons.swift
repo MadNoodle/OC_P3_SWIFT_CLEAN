@@ -8,8 +8,14 @@
 
 import Foundation
 
-class Weapon {
+/**
+ Custom object that represent a weapon
+
+ */
+public class Weapon {
+  ///amount of damages
     var damages:Int
+  ///name of the weapon
     var name:String
     
     init(name:String, damages:Int){
@@ -17,11 +23,12 @@ class Weapon {
         self.damages = damages
     }
 }
+
 /**
  Warrior Weapon.
  inherits from Weapon class
  */
-class Epee: Weapon {
+public class Epee: Weapon {
   init(){
     super.init(name: "Epée", damages: 10)
   }
@@ -31,7 +38,7 @@ class Epee: Weapon {
  Wizard Weapon.
  inherits from Weapon class
  */
-class Wand: Weapon {
+public class Wand: Weapon {
   init(){
     super.init(name: "Baguette Magique", damages: 20)
   }
@@ -41,7 +48,7 @@ class Wand: Weapon {
  Colossus Weapon.
  inherits from Weapon class
  */
-class Fists: Weapon {
+public class Fists: Weapon {
   init(){
     super.init(name: "Poings", damages: 5)
   }
@@ -50,7 +57,7 @@ class Fists: Weapon {
  Dwarf Weapon.
  inherits from Weapon class
  */
-class Axe: Weapon {
+public class Axe: Weapon {
   init(){
     super.init(name: "Haches", damages: 30)
   }
@@ -60,7 +67,7 @@ class Axe: Weapon {
  Bonus Weapon.
  inherits from Weapon class
  */
-class Missile: Weapon{
+public class Missile: Weapon{
   init(){
     super.init(name:"Missile", damages: 100)
   }
@@ -70,7 +77,7 @@ class Missile: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class Arc: Weapon{
+public class Arc: Weapon{
   init(){
     super.init(name:"Arc", damages: 35)
   }
@@ -80,7 +87,7 @@ class Arc: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class Baguette: Weapon{
+public class Baguette: Weapon{
   init(){
     super.init(name:"baguette de pain", damages: 5)
   }
@@ -90,7 +97,7 @@ class Baguette: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class Spoon: Weapon{
+public class Spoon: Weapon{
   init(){
     super.init(name:"Petite cuillère", damages: 1)
   }
@@ -100,7 +107,7 @@ class Spoon: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class Powder: Weapon{
+public class Powder: Weapon{
   init(){
     super.init(name:"poudre magique", damages: 50)
   }
@@ -110,7 +117,7 @@ class Powder: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class FrogEye: Weapon{
+public class FrogEye: Weapon{
   init(){
     super.init(name:"oeil de grenouille", damages: 25)
   }
@@ -120,7 +127,7 @@ class FrogEye: Weapon{
  Bonus Weapon.
  inherits from Weapon class
  */
-class Scepter: Weapon{
+public class Scepter: Weapon{
   init(){
     super.init(name:"sceptre suerpuissant", damages: 75)
   }

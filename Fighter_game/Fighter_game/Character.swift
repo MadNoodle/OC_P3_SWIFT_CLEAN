@@ -14,13 +14,16 @@ This class contains all characters caracteristics and methods
   * Attack
   * Heal
   * Die
+   * switchWeapon
+   * offensiveClassAbility
+   * defensiveClassAbility
 */
-
-class Character {
+public class Character {
   /// Fighter's name
   var name : String
-  ///Fighter's class
-  var classe : Classe  /// health points
+  /// Fighter's class
+  var classe : Classe
+  /// health points
   var health : Int
   /// maxhealth points. This parameter is used to clamp heal value to initial life
   var maxHealth : Int
@@ -30,12 +33,15 @@ class Character {
   var weapon : Weapon
   /// weapon name
   var weaponName : String
-  ///weapon damages
+  /// weapon damages
   var weaponDmg : Int
-  
+  /// class caracteristic . Use it to spawn class ability and calculate damages of it
   var agility:Int
+  /// class caracteristic . Use it to spawn class ability and calculate damages of it
   var force:Int
+  /// class caracteristic . Use it to spawn class ability and calculate damages of it
   var intelligence:Int
+   ///class caracteristic . Use it to spawn class ability and calculate damages of it
   var wizardry:Int
 
   // Initialization function to create an instance
@@ -47,7 +53,7 @@ class Character {
       self.intelligence = intelligence
       self.wizardry = wizardry
     
-    //CLASS CARACTERISTICS
+  //CLASS CARACTERISTICS
     switch self.classe{
     case .warrior:
       self.health = 100
@@ -86,13 +92,13 @@ This function deals damages. It takes the value of an attacker's damage and remo
 ## Warning ##
 There is a sanity check to verify if the target player is alive after dealing damages. In this case it triggers the function Die.
    
-### Parameters ###
-that it takes 3 parameters :
-* the attacker :  a member of your team
-* the target : a member of enemy team
-* enemyPlayer : used to depopulate playerTeam variable when calls Die()
+   - Parameters:
+     - attacker: a member of your team
+     - target: a member of enemy team
+     - enemyPlayer: used to depopulate playerTeam variable when calls Die()
 */
-  func attack(attacker:Character, target:Character, enemyPlayer : Player){
+  
+  internal func attack(attacker:Character, target:Character, enemyPlayer : Player){
       //Deal Damage
       offensiveClassAbility(attacker:attacker,agility: attacker.agility, force: attacker.force, intelligence: attacker.intelligence, wizardry: attacker.wizardry )
       defensiveClassAbility(target:target, attacker:attacker, agility:target.agility, force: target.force, intelligence: target.intelligence, wizardry:target.wizardry )
@@ -110,15 +116,15 @@ that it takes 3 parameters :
 /**
 This function heals a teammate. It takes the value of an attacker's damage and remove the same amount of health points to the target
 ## Notice ##
-* There is a sanity check to verify if the target is dead or alive. Remember you cannot heal dead people.
-* You can only heal a member of your own team
+   * There is a sanity check to verify if the target is dead or alive. Remember you cannot heal dead people.
+   * You can only heal a member of your own team
 
-### Parameters ###
-that it takes 2 parameters :
-* the attacker :  a member of your team of the .mage classe
-* the target : the member you wish to heal
+   - Parameters:
+     - attacker: a member of your team
+     - target: a member of your team you wish to heal
 */
-  func heal(attacker:Character, target:Character){
+  
+  internal func heal(attacker:Character, target:Character){
       //Check is dead or alive
       if target.health <= 0 {
           print ("☠️ On ne peut pas soigner les morts")
@@ -135,8 +141,12 @@ that it takes 2 parameters :
   
 /**
 This function allows the character to change equip a new weapon when a vault spaws
+   - Parameters:
+     - hero: hero that performs the action to switch weapon
+     - classWeapon: original class weapon
+     - bonusWeapon: bonus weapon
 */
-  func switchWeapon(hero: Character, classWeapon:Weapon, bonusWeapon:Weapon){
+  internal func switchWeapon(hero: Character, classWeapon:Weapon, bonusWeapon:Weapon){
     hero.weapon = bonusWeapon
     hero.weaponDmg = bonusWeapon.damages
     if self.classe == .mage {
@@ -149,13 +159,11 @@ This function allows the character to change equip a new weapon when a vault spa
   
   /**
    This function destroy the hero. It looks in playerTeam array for the hero and remove him.
-   
-   ### Parameters ###
-   that it takes 2 parameters :
-   * the hero :  used to find the hero and destroy him
-   * the enemyPlayer : used to fetch the enemy player's team
+     - Parameters:
+       - hero: used to find the hero and destroy him
+       - enemyPlayer: used to fetch the enemy player's team
    */
-  func die(hero:Character,enemyPlayer: Player){
+  internal func die(hero:Character,enemyPlayer: Player){
       if let index = enemyPlayer.playerTeam.index(where: { $0.name == hero.name }) {
           enemyPlayer.playerTeam.remove(at: index)
       }
@@ -163,8 +171,14 @@ This function allows the character to change equip a new weapon when a vault spa
   
   /**
    This function randomly calls a class ability to enhance attackers damages during the current turn
+     - Parameters:
+       - attacker: the hero which casts the ability
+       - agility: class caracteristic
+       - force: class caracteristic
+       - intelligence: class caracteristic
+       - wizardry: class caracteristic
    */
-  func offensiveClassAbility(attacker:Character,agility:Int, force: Int, intelligence:Int, wizardry:Int ){
+  private func offensiveClassAbility(attacker:Character,agility:Int, force: Int, intelligence:Int, wizardry:Int ){
     ///Main class caracterisitic. Acts on the odd to cast the ability and the damage algorithm
     var caracteristic1:Int
     ///Secondary class caracterisitic. Acts on the damage algorithm
@@ -199,12 +213,12 @@ This function allows the character to change equip a new weapon when a vault spa
             attacker.weaponDmg *= critFactor
             print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe COUP CRITIQUE et inflige \(attacker.weaponDmg)")
       case .mage:
-        ///critical heal damage algorithm
+          ///critical heal damage algorithm
           let critHealFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
           attacker.weaponDmg *= critHealFactor
             print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe AMELIORATION et soigne \(attacker.weaponDmg)")
       case .colossus:
-        /// damage of the colossus's minion
+          /// damage of the colossus's minion
           let minionDmg = (1+(caracteristic2 / caracteristic1))
           attacker.weaponDmg *= minionDmg
             print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe INVOCATION FAMILIER. Le familier mord la cible et inglige \(attacker.weaponDmg)")
@@ -216,8 +230,14 @@ This function allows the character to change equip a new weapon when a vault spa
   
   /**
    This function randomly calls a class ability to enhance target damages during the current turn
+     - Parameters:
+       - attacker: the hero which casts the ability
+       - agility: class caracteristic
+       - force: class caracteristic
+       - intelligence: class caracteristic
+       - wizardry: class caracteristic
    */
-  func defensiveClassAbility(target:Character, attacker:Character, agility:Int, force: Int, intelligence:Int, wizardry:Int ){
+  private func defensiveClassAbility(target:Character, attacker:Character, agility:Int, force: Int, intelligence:Int, wizardry:Int ){
     ///Main class caracterisitic. Acts on the odd to cast the ability and the damage algorithm
     var caracteristic1:Int
     ///Secondary class caracterisitic. Acts on the damage algorithm
@@ -269,7 +289,7 @@ This function allows the character to change equip a new weapon when a vault spa
 /**
  Function to reset attackers damage at the end of turn. It prevents him to keep insane damages
  */
-  func characterAttackReset(){
+  public func characterAttackReset(){
        self.weaponDmg = weapon.damages
   }
 }
