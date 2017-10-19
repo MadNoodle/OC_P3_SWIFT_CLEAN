@@ -62,7 +62,7 @@ public class Character {
       case .colossus:
         initHero(health: 150, maxHealth: 150, icon: "⛰", weapon: Fists())
       case .dwarf:
-      self.initHero(health: 25, maxHealth: 25, icon: "⚒", weapon: Axe())
+        initHero(health: 25, maxHealth: 25, icon: "⚒", weapon: Axe())
     }
     
   }

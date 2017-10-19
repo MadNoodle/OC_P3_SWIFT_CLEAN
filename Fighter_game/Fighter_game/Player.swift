@@ -23,12 +23,19 @@ class Player {
 /**
  Function that converts string input to input use to prevent crash when typing out of range input
  # WARNING #
- Int conversion return an optionnal DO NOT REMOVE ! !
- * ToDo:Handle the case letters are pressed
- */
+ * Int conversion return an optionnal DO NOT REMOVE ! !
+ * When the input is not a digit the function returns 0 so it does not fulffil the sanity check in createHero() function
+*/
   public func keyInput() -> Int{
    let input = readLine()
-      return Int(input!)!
+      let number = input!
+      let numberCharacters = NSCharacterSet.decimalDigits.inverted
+      if number.rangeOfCharacter(from: numberCharacters) == nil {
+        return Int(number)!
+    } else {
+        print("Veuillez entrer un chiffre")
+      return 0
+    }
   }
   
 /**
@@ -124,8 +131,6 @@ This function is used to create a team. It send all the paramaters to instantiat
           force = keyInput()
           print("Combien de points voulez vous attribuez en AGILITE?")
           agility = keyInput()
-          intelligence = 0
-          wizardry = 0
         }while (agility + force + intelligence + wizardry) != 10
       case 2:
         classe = .mage
@@ -135,8 +140,6 @@ This function is used to create a team. It send all the paramaters to instantiat
           intelligence = keyInput()
           print("Combien de points voulez vous attribuez en SORCELLERIE?")
           wizardry = keyInput()
-          force = 0
-          agility = 0
         } while (agility + force + intelligence + wizardry) != 10
       case 3:
         classe = .colossus
@@ -146,8 +149,6 @@ This function is used to create a team. It send all the paramaters to instantiat
           force = keyInput()
           print("Combien de points voulez vous attribuez en SORCELLERIE?")
           wizardry = keyInput()
-          intelligence = 0
-          agility = 0
           }while (agility + force + intelligence + wizardry) != 10
       case 4:
           classe = .dwarf
@@ -157,8 +158,6 @@ This function is used to create a team. It send all the paramaters to instantiat
               agility = keyInput()
               print("Combien de points voulez vous attribuez en AGILITE?")
               force = keyInput()
-              intelligence = 0
-              wizardry = 0
             }while (agility + force + intelligence + wizardry) != 10
       default:
         break
