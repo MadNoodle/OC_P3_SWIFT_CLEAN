@@ -193,9 +193,9 @@ it shows the following values:
       let detail:String
     
       if playerTeam[id].classe == .mage{
-          detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weaponName) - 💧  Soins: \(playerTeam[id].weaponDmg)"
+          detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 💧  Soins: \(playerTeam[id].weapon.damages)"
       }else{
-          detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weaponName) - 🎯 Dommages : \(playerTeam[id].weaponDmg)"}
+          detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 🎯 Dommages : \(playerTeam[id].weapon.damages)"}
       return detail
   }
   
@@ -279,7 +279,58 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
     // MARK: FIGHT MECANICS //
     // //////////////////  //
     
-/**
+  fileprivate func chooseFighter(_ fighters: inout [Character]) {
+    if let choice = readLine(){
+      var attacker:Character
+      
+      switch choice {
+      case "1":
+        attacker = self.playerTeam[0]
+        fighters.append(attacker)
+      case "2":
+        attacker = self.playerTeam[1]
+        fighters.append(attacker)
+      case "3":
+        attacker = self.playerTeam[2]
+        fighters.append(attacker)
+      default:
+        print("Je ne comprends pas")
+      }
+    }
+  }
+  
+  
+  fileprivate func healTarget(_ fighters: inout [Character]) {
+    if let choice = readLine(){
+      var target:Character
+      
+      switch choice {
+      case "1":
+        target = self.playerTeam[0]
+        fighters.append(target)
+        target.heal(attacker:fighters[0], target:fighters[1])
+        fighters[0].characterAttackReset()
+        fighters.removeAll()
+      case "2":
+        target = self.playerTeam[1]
+        fighters.append(target)
+        target.heal(attacker:fighters[0], target:fighters[1])
+        fighters[0].characterAttackReset()
+        fighters.removeAll()
+      case "3":
+        target = self.playerTeam[2]
+        fighters.append(target)
+        target.heal(attacker:fighters[0], target:fighters[1])
+        fighters[0].characterAttackReset()
+        fighters.removeAll()
+      default:
+        print("Je ne comprends pas")
+      }
+      
+    }
+  }
+  
+  /**
 Contains all the combat mecanics
 * choose an fighter in your own team called attacker and store it in an Array called fighter
 * attack a enemy fighter called target
@@ -301,23 +352,7 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
       //1ST STEP :Choose your fighter
       print("Choisissez votre attaquant")
       displayPlayerChoice(team:self.playerTeam)
-      if let choice = readLine(){
-          var attacker:Character
-        
-          switch choice {
-          case "1":
-              attacker = self.playerTeam[0]
-              fighters.append(attacker)
-         case "2":
-              attacker = self.playerTeam[1]
-              fighters.append(attacker)
-          case "3":
-              attacker = self.playerTeam[2]
-              fighters.append(attacker)
-          default:
-              print("Je ne comprends pas")
-          }
-      }
+      chooseFighter(&fighters)
 
       //RANDOM STEP: Random spawn a vault
       randomSpawnWeapon(hero: fighters[0])
@@ -327,34 +362,7 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
           print("Choisissez la personne que vous voulez soigner")
           displayPlayerChoice(team:self.playerTeam)
         
-          if let choice = readLine(){
-              var target:Character
-            
-              switch choice {
-              case "1":
-                  target = self.playerTeam[0]
-                  fighters.append(target)
-                  target.heal(attacker:fighters[0], target:fighters[1])
-                  fighters[0].characterAttackReset()
-                  fighters.removeAll()
-                
-              case "2":
-                  target = self.playerTeam[1]
-                  fighters.append(target)
-                  target.heal(attacker:fighters[0], target:fighters[1])
-                  fighters[0].characterAttackReset()
-                  fighters.removeAll()
-              case "3":
-                  target = self.playerTeam[2]
-                  fighters.append(target)
-                  target.heal(attacker:fighters[0], target:fighters[1])
-                  fighters[0].characterAttackReset()
-                  fighters.removeAll()
-              default:
-                  print("Je ne comprends pas")
-              }
-            
-          }
+        healTarget(&fighters)
         
       }else{
         
