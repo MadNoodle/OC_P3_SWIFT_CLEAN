@@ -6,13 +6,12 @@
 //  Copyright © 2017 Mathieu Janneau. All rights reserved.
 
 
-
 /**
  List all the character classes
  */
 public enum Classe {
   case warrior
-  case mage
+  case wizard
   case colossus
   case dwarf
 }

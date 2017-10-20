@@ -10,6 +10,7 @@ import Foundation
 
 /**
 This class contains all characters caracteristics and methods
+ it is called in fourth position in control Flow (Main -> Game -> Player -> Character)
 ### List of methods ###
   * Attack
   * Heal
@@ -31,16 +32,22 @@ public class Character {
   var icon : String
   ///class weapon
   var weapon : Weapon
-  /// class caracteristic . Use it to spawn class ability and calculate damages of it
+  /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
   var agility:Int
-  /// class caracteristic . Use it to spawn class ability and calculate damages of it
+  /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
   var force:Int
-  /// class caracteristic . Use it to spawn class ability and calculate damages of it
+  /// class caracteristic ( Mage). Use it to spawn class ability and calculate damages of it
   var intelligence:Int
-   ///class caracteristic . Use it to spawn class ability and calculate damages of it
+   ///class caracteristic ( Warrior & Colossus). Use it to spawn class ability and calculate damages of it
   var wizardry:Int
 
-  // Initialization function to create an instance
+  
+  // /////////////////////////////////////// //
+  // MARK : INSTATIATION & DESTROY FUNCTIONS //
+  // /////////////////////////////////////// //
+  
+  
+  /// Initialization function to create an instance
   init(name:String, classe:Classe, agility:Int, force: Int, intelligence:Int, wizardry:Int ){
       self.name = name
       self.classe = classe
@@ -57,7 +64,7 @@ public class Character {
       switch self.classe{
       case .warrior:
         initHero(health: 100, maxHealth: 100, icon: "⚔", weapon:Epee())
-      case .mage:
+      case .wizard:
          initHero(health: 50, maxHealth: 50, icon: "✚", weapon: Wand())
       case .colossus:
         initHero(health: 150, maxHealth: 150, icon: "⛰", weapon: Fists())
@@ -66,8 +73,9 @@ public class Character {
     }
     
   }
+  
 /**
-   This function inits all the class relative variables of the character
+   This function inits all class related variables
    - Parameters:
      - health: health value Int
      - maxHealth: health cap int
@@ -80,6 +88,25 @@ public class Character {
     self.icon = icon
     self.weapon = weapon
   }
+  
+  
+  /**
+   This function destroy the hero. It looks in playerTeam array for the hero and remove him.
+   - Parameters:
+   - hero: used to find the hero and destroy him
+   - enemyPlayer: used to fetch the enemy player's team
+   */
+  internal func die(hero:Character,enemyPlayer: Player){
+    if let index = enemyPlayer.playerTeam.index(where: { $0.name == hero.name }) {
+      enemyPlayer.playerTeam.remove(at: index)
+    }
+  }
+
+  
+  // ///////////////////////////////////////////// //
+  // MARK : INTERACTIONS WITH CHARACTERS & OBJECTS //
+  // ///////////////////////////////////////////// //
+  
   
 /**
 This function deals damages. It takes the value of an attacker's damage and remove the same amount of health points to the target
@@ -142,7 +169,7 @@ This function allows the character to change equip a new weapon when a vault spa
   internal func switchWeapon(hero: Character, classWeapon:Weapon, bonusWeapon:Weapon){
     hero.weapon = bonusWeapon
     hero.weapon.damages = bonusWeapon.damages
-    if self.classe == .mage {
+    if self.classe == .wizard {
       print("VOUS VOUS EQUIPEZ DE \(bonusWeapon.name) ET VOUS SOIGNEZ \(bonusWeapon.damages)PTS DE VIE")
     } else{
       print("VOUS VOUS EQUIPEZ DE \(bonusWeapon.name) ET VOUS FAITES DESORMAIS \(bonusWeapon.damages)PTS DE DOMMAGE")
@@ -150,17 +177,108 @@ This function allows the character to change equip a new weapon when a vault spa
     }
   }
   
+  // ////////////////////// //
+  // MARK : CLASS ABILITIES //
+  // ////////////////////// //
   /**
-   This function destroy the hero. It looks in playerTeam array for the hero and remove him.
-     - Parameters:
-       - hero: used to find the hero and destroy him
-       - enemyPlayer: used to fetch the enemy player's team
+   this functions allocates the caracteristics for each class and dispatch them for calculation of invokation odss
+   ## Class caracteristics description ##
+   * Warrior : Force & Agility
+   * Wizard : Intelligence & Wizardry
+   * Colossus : Force & Wizardry
+   * Dwarf : Agility & Force
+   - parameters:
+     - force
+     - agility
+     - intelligence
+     - wizardry
    */
-  internal func die(hero:Character,enemyPlayer: Player){
-      if let index = enemyPlayer.playerTeam.index(where: { $0.name == hero.name }) {
-          enemyPlayer.playerTeam.remove(at: index)
-      }
+  
+  func classCaracteristic(force:Int, agility:Int, intelligence:Int, wizardry:Int) -> (Int, Int) {
+    var caracteristic1:Int
+    var caracteristic2:Int
+    
+    switch self.classe {
+    case .warrior:
+      caracteristic1 = force
+      caracteristic2 = agility
+    case .wizard:
+      caracteristic1 = intelligence
+      caracteristic2 = wizardry
+    case .colossus:
+      caracteristic1 = force
+      caracteristic2 = wizardry
+    case .dwarf:
+      caracteristic1 = agility
+      caracteristic2 = force
+    }
+    return (caracteristic1, caracteristic2)
   }
+
+  // //////////////// //
+  // MARK : WARRIOR   //
+  // //////////////// //
+  
+  private func warriorOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    ///critical strike damage algorithm
+    let critFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
+    attacker.weapon.damages *= critFactor
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe COUP CRITIQUE et inflige \(attacker.weapon.damages)")
+  }
+  
+  private func warriorDefensiveAbility(_ attacker: Character, _ target: Character) {
+    attacker.weapon.damages = 0
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe et BLOQUE L'ATTAQUE. Il ne reçoit pas de dégats.")
+  }
+  
+  // //////////////// //
+  // MARK : WIZARD    //
+  // //////////////// //
+  
+  private func wizardOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    ///critical heal damage algorithm
+    let critHealFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
+    attacker.weapon.damages *= critHealFactor
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe AMELIORATION et soigne \(attacker.weapon.damages)")
+  }
+  
+  private func wizardDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ target: Character) {
+    let buff = (caracteristic2 + (caracteristic1 / caracteristic2))
+    target.maxHealth += buff
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe REVIGORATION")
+  }
+  
+  // ///////////////// //
+  // MARK : COLOSSUS   //
+  // ///////////////// //
+  
+  private func colossusOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    /// damage of the colossus's minion
+    let minionDmg = (1+(caracteristic2 / caracteristic1))
+    attacker.weapon.damages *= minionDmg
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe INVOCATION FAMILIER. Le familier mord la cible et inglige \(attacker.weapon.damages)")
+  }
+  
+  private func colossusDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character, _ target: Character) {
+    let shield = (caracteristic2 * 2 + (caracteristic1 / caracteristic2))
+    attacker.weapon.damages -= shield
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe MURAILLE")
+  }
+  
+  // /////////////// //
+  // MARK : DWARF    //
+  // /////////////// //
+  
+  private func dwardDefensiveAbility(_ attacker: Character, _ caracteristic1: Int, _ caracteristic2: Int, _ target: Character) {
+    attacker.weapon.damages = 0
+    let riposte = caracteristic1 * (((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
+    attacker.health -= riposte
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe PARADE RIPOSTE. Il reçoit \(attacker.weapon.damages) points de dégats. Puis il lance férocement sa hache sur \(attacker.name) et lui inflige \(riposte) points de dégats")
+  }
+  
+  // /////////////////////////////////// //
+  // MARK : CLASS ABILITIES ODDS & INVOKE//
+  // /////////////////////////////////// //
   
   /**
    This function randomly calls a class ability to enhance attackers damages during the current turn
@@ -184,20 +302,11 @@ This function allows the character to change equip a new weapon when a vault spa
     if interval >= 11 {
       switch self.classe {
       case .warrior:
-            ///critical strike damage algorithm
-            let critFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
-            attacker.weapon.damages *= critFactor
-            print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe COUP CRITIQUE et inflige \(attacker.weapon.damages)")
-      case .mage:
-          ///critical heal damage algorithm
-          let critHealFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
-          attacker.weapon.damages *= critHealFactor
-            print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe AMELIORATION et soigne \(attacker.weapon.damages)")
+        warriorOffensiveAbility(caracteristic2, caracteristic1, attacker)
+      case .wizard:
+        wizardOffensiveAbility(caracteristic2, caracteristic1, attacker)
       case .colossus:
-          /// damage of the colossus's minion
-          let minionDmg = (1+(caracteristic2 / caracteristic1))
-          attacker.weapon.damages *= minionDmg
-            print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe INVOCATION FAMILIER. Le familier mord la cible et inglige \(attacker.weapon.damages)")
+        colossusOffensiveAbility(caracteristic2, caracteristic1, attacker)
       case .dwarf:
         break
       }
@@ -225,21 +334,13 @@ This function allows the character to change equip a new weapon when a vault spa
     if interval >= 11 {
       switch self.classe {
       case .warrior:
-        attacker.weapon.damages = 0
-        print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe et BLOQUE L'ATTAQUE. Il ne reçoit pas de dégats.")
-      case .mage:
-        let buff = (caracteristic2 + (caracteristic1 / caracteristic2))
-        target.maxHealth += buff
-        print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe REVIGORATION")
+        warriorDefensiveAbility(attacker, target)
+      case .wizard:
+        wizardDefensiveAbility(caracteristic2, caracteristic1, target)
       case .colossus:
-        let shield = (caracteristic2 * 2 + (caracteristic1 / caracteristic2))
-        attacker.weapon.damages -= shield
-        print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe MURAILLE")
+        colossusDefensiveAbility(caracteristic2, caracteristic1, attacker, target)
       case .dwarf:
-        attacker.weapon.damages = 0
-        let riposte = caracteristic1 * (((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
-        attacker.health -= riposte
-        print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe PARADE RIPOSTE. Il reçoit \(attacker.weapon.damages) points de dégats. Puis il lance férocement sa hache sur \(attacker.name) et lui inflige \(riposte) points de dégats")
+        dwardDefensiveAbility(attacker, caracteristic1, caracteristic2, target)
       }
     }
   }
@@ -249,25 +350,6 @@ This function allows the character to change equip a new weapon when a vault spa
   public func characterAttackReset(){
        self.weapon.damages = weapon.damages
   }
-  
-  func classCaracteristic(force:Int, agility:Int, intelligence:Int, wizardry:Int) -> (Int, Int) {
-    var caracteristic1:Int
-    var caracteristic2:Int
-    
-    switch self.classe {
-    case .warrior:
-      caracteristic1 = force
-      caracteristic2 = agility
-    case .mage:
-      caracteristic1 = intelligence
-      caracteristic2 = wizardry
-    case .colossus:
-      caracteristic1 = force
-      caracteristic2 = wizardry
-    case .dwarf:
-      caracteristic1 = agility
-      caracteristic2 = force
-    }
-    return (caracteristic1, caracteristic2)
-  }
+
 }
+

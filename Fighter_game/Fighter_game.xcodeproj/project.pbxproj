@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B90CE1C81F975D24006477EA /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90CE1C71F975D24006477EA /* Classes.swift */; };
-		B90CE1CC1F990663006477EA /* Caracteristics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90CE1CB1F990663006477EA /* Caracteristics.swift */; };
 		B9418A441F94AC90008737E3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A431F94AC90008737E3 /* main.swift */; };
 		B9418A4B1F94AE04008737E3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A4A1F94AE04008737E3 /* Player.swift */; };
 		B9418A4D1F94AE97008737E3 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A4C1F94AE97008737E3 /* Character.swift */; };
@@ -30,7 +29,6 @@
 
 /* Begin PBXFileReference section */
 		B90CE1C71F975D24006477EA /* Classes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
-		B90CE1CB1F990663006477EA /* Caracteristics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caracteristics.swift; sourceTree = "<group>"; };
 		B9418A401F94AC90008737E3 /* Fighter_game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Fighter_game; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9418A431F94AC90008737E3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B9418A4A1F94AE04008737E3 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 				B9418A4C1F94AE97008737E3 /* Character.swift */,
 				B9418A501F94AF3A008737E3 /* Weapons.swift */,
 				B90CE1C71F975D24006477EA /* Classes.swift */,
-				B90CE1CB1F990663006477EA /* Caracteristics.swift */,
 			);
 			path = Fighter_game;
 			sourceTree = "<group>";
@@ -144,7 +141,6 @@
 				B9418A4D1F94AE97008737E3 /* Character.swift in Sources */,
 				B9418A4B1F94AE04008737E3 /* Player.swift in Sources */,
 				B9418A441F94AC90008737E3 /* main.swift in Sources */,
-				B90CE1CC1F990663006477EA /* Caracteristics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

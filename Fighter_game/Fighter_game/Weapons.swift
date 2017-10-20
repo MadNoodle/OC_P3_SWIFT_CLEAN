@@ -10,8 +10,8 @@ import Foundation
 
 /**
  Custom object that represent a weapon
-
  */
+
 public class Weapon {
   ///amount of damages
     var damages:Int

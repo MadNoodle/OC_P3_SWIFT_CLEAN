@@ -8,18 +8,35 @@
 
 import Foundation
 
+/**
+ This class contains all the Player mecanics
+ ### NOTICE ###
+ This class is called by Game Class and is 3rd in the control flow ( main -> Game -> Player)
+ ## What does it handle ? ##
+ - Keyboard Input
+ - Character & team instantioation
+ - UI display of team & characters Info
+ - Turn options for players
+ - Fight mecanics (heal & attack)
+ - vault mecanics
+ */
 class Player {
     /// Int number use to identify player
     var id : Int
     /// String Value use to identify player. Each player gives a name
     var name = ""
     var playerTeam = [Character]()
-    
-
+  
     init(id:Int){
         self.id = id
     }
-    
+  
+  
+  // //////////////////////////// //
+  // MARK : INTERACTIONS / INPUT //
+  // //////////////////////////// //
+  
+  
 /**
  Function that converts string input to input use to prevent crash when typing out of range input
  # WARNING #
@@ -37,6 +54,11 @@ class Player {
       return 0
     }
   }
+
+  // //////////////////////////////////////// //
+  // MARK : CREATE A PLAYER CONTROL FLOW      //
+  // //////////////////////////////////////// //
+  
   
 /**
  Function prompts user to enter his name
@@ -47,7 +69,8 @@ class Player {
           self.name = playerName
       }
   }
-    
+
+  
 /**
 This function is used to create a team
 Here are the steps:
@@ -61,7 +84,6 @@ Conditions to fullfill to create a player
  public func createPlayerTeam(){
       // ask for player to enter his name
       playerName()
-    
       print("\u{001B}[0;33m \(self.name) VA COMPOSER SON EQUIPE\u{001B}[0;37m")
     
       while playerTeam.count<3{
@@ -82,94 +104,118 @@ Conditions to fullfill to create a player
           }
       }
   }
-
-/**
-This function is used to create a team. It send all the paramaters to instantiate a hero
-* asks for a name
-* aks for user to select a class
-* ask the player to dispatch 10 pts in 2 class caracteritics
-*/
- private func createHero() -> Character{
-      ///User keyboard input
-      var userChoice:Int
+  
+  /**
+   This function is used to create a team. It send all the paramaters to instantiate a hero
+   * asks for a name
+   * aks for user to select a class
+   * ask the player to dispatch 10 pts in 2 class caracteritics
+   */
+  private func createHero() -> Character{
+    ///User keyboard input
+    var userChoice:Int
+    /// Name given to the champ you are instantiating
+    let heroName = nameChamp()
     
-      // Give a name to a champ
-      print ("\(self.name), comment s'appelle votre guerrier?")
-      var name = ""
-      if let nameChamp = readLine(){
-          name = nameChamp
-          print("Votre héros s'appelle \(nameChamp)")
-      }
-    
-      // Choose character class
-      repeat {
-          print ("\n"
-              + "Quelle est sa profession ?"
-              + "\n1. Guerrier    ⚔    ❤️  vie: 100 pts     ⚔  Arme : Epée              🎯  Dommages: 50 pts"
-              + "\n2. Mage        ✚     ❤️  vie: 50 pts      ⚔  Arme : Baguette magique  💧  Soins: 25 pts"
-              + "\n3. Colosse     ⛰    ❤️  vie: 100 pts     ⚔  Arme : Poing             🎯  Dommages: 5 pts"
-              + "\n4. Nain        ⚒    ❤️  vie: 25 pts      ⚔  Arme : Haches            🎯  Dommages: 30 pts"
-        + "\n")
-          userChoice = keyInput()
-      }
+    repeat {
+      userChoice = promptClass()
+    }
       //Sanity check to prevent out of range input crash
       while userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4
     
-      //Classe selection
-      // assuming the optionnal have a value cf. sanity check
-      var classe: Classe!
-      var agility = 0
-      var force = 0
-      var intelligence = 0
-      var wizardry = 0
-      switch userChoice {
-      case 1:
-        classe = .warrior
-        repeat {
-          print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en FORCE?")
-          force = keyInput()
-          print("Combien de points voulez vous attribuez en AGILITE?")
-          agility = keyInput()
-        }while (agility + force + intelligence + wizardry) != 10
-      case 2:
-        classe = .mage
-        repeat {
-        print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en INTELLIGENCE?")
-          intelligence = keyInput()
-          print("Combien de points voulez vous attribuez en SORCELLERIE?")
-          wizardry = keyInput()
-        } while (agility + force + intelligence + wizardry) != 10
-      case 3:
-        classe = .colossus
-        repeat {
-          print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-          + "\n Combien de points voulez vous attribuez en FORCE?")
-          force = keyInput()
-          print("Combien de points voulez vous attribuez en SORCELLERIE?")
-          wizardry = keyInput()
-          }while (agility + force + intelligence + wizardry) != 10
-      case 4:
-          classe = .dwarf
-          repeat{
-            print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
-              + "\n Combien de points voulez vous attribuez en FORCE?")
-              agility = keyInput()
-              print("Combien de points voulez vous attribuez en AGILITE?")
-              force = keyInput()
-            }while (agility + force + intelligence + wizardry) != 10
-      default:
-        break
-      }
+    //Classe selection - assuming the optionnal have a value cf. sanity check
+    var (agility,force,intelligence,wizardry) = (0,0,0,0)
+    let sanityCheck: Bool = (agility + force + intelligence + wizardry) != 10
+    var classe: Classe!
     
-      //Hero instanciantion
-    let champion = Character(name:name,classe:classe, agility: agility, force: force, intelligence: intelligence, wizardry: wizardry)
+    switch userChoice {
+    case 1:
+      classe = .warrior
+      repeat {
+        (force, agility) = caracteristicAttribution(mainCar : "FORCE",SecondaryCar: "AGILITÉ")
+      }while sanityCheck
+    case 2:
+      classe = .wizard
+      repeat {
+        (intelligence,wizardry) = caracteristicAttribution(mainCar : "INTELLIGENCE",SecondaryCar: "SORCELLERIE")
+      } while sanityCheck
+    case 3:
+      classe = .colossus
+      repeat {
+        (force,wizardry) = caracteristicAttribution(mainCar : "FORCE",SecondaryCar: "WIZARDRY")
+      }while sanityCheck
+    case 4:
+      classe = .dwarf
+      repeat{
+        (agility,force) = caracteristicAttribution(mainCar : "AGILITÉ",SecondaryCar: "FORCE")
+      }while sanityCheck
+    default:
+      break
+    }
+    
+    ///Hero you are instantiating
+    let champion = Character(name:heroName,classe:classe, agility: agility, force: force, intelligence: intelligence, wizardry: wizardry)
     //Return Object
     return champion
   }
+  
+  
+  // ///////////////////////////////// //
+  // MARK : INTANTIATION FUNCTIONS     //
+  // ///////////////////////////////// //
+  
+  /**
+   This function asks the user to give a name to his champion
+   */
+  func nameChamp() -> String {
+    print ("\(self.name), comment s'appelle votre guerrier?")
+    var name = ""
     
-   
+    if let nameChamp = readLine(){
+      name = nameChamp
+      print("Votre héros s'appelle \(nameChamp)")
+    }
+    return name
+  }
+  
+  /**
+   This function allows the user to dispatch the 10 class points in the 2 class caracteristics.
+   ## Warning ##
+   If the sum of the 2 Input differs from 10 the user will have to dispatch the points
+   - parameters:
+   - mainCar : main caracteristic of the Hero
+   - SecondaryCar : secondary caracteristic of the hero
+   */
+  func caracteristicAttribution(mainCar : String, SecondaryCar: String) -> (Int, Int){
+    print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+      + "\n Combien de points voulez vous attribuez en \(mainCar)?")
+    let carcateristicMain = keyInput()
+    print("Combien de points voulez vous attribuez en \(SecondaryCar)?")
+    let caracteristicSecondary = keyInput()
+    return (carcateristicMain, caracteristicSecondary)
+  }
+ 
+/**
+ This function propose the user to choose between 4 classes of character
+ - Return: int
+ */
+  private func promptClass() -> Int{
+    // Choose character class
+    
+    print ("\n"
+      + "Quelle est sa profession ?"
+      + "\n1. Guerrier    ⚔    ❤️  vie: 100 pts     ⚔  Arme : Epée              🎯  Dommages: 50 pts"
+      + "\n2. Mage        ✚     ❤️  vie: 50 pts      ⚔  Arme : Baguette magique  💧  Soins: 25 pts"
+      + "\n3. Colosse     ⛰    ❤️  vie: 100 pts     ⚔  Arme : Poing             🎯  Dommages: 5 pts"
+      + "\n4. Nain        ⚒    ❤️  vie: 25 pts      ⚔  Arme : Haches            🎯  Dommages: 30 pts"
+      + "\n")
+    let userChoice = keyInput()
+    return userChoice
+  }
+  
+  // //////////////////////////// //
+  // MARK : UI FUNCTIONS             //
+  // //////////////////////////// //
 /**
 Show Character details. There are 2 types :
 * mage
@@ -191,7 +237,7 @@ it shows the following values:
       ///detailed caracteristics displayed on one line
       let detail:String
     
-      if playerTeam[id].classe == .mage{
+      if playerTeam[id].classe == .wizard{
           detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 💧  Soins: \(playerTeam[id].weapon.damages)"
       }else{
           detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 🎯 Dommages : \(playerTeam[id].weapon.damages)"}
@@ -275,10 +321,10 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
   }
     
     // ///////////////////  //
-    // MARK: FIGHT MECANICS //
+    // MARK: FIGHTER SELECTION //
     // //////////////////  //
     
-  fileprivate func chooseFighter(_ fighters: inout [Character]) {
+ public func chooseFighter(_ fighters: inout [Character]) {
     if let choice = readLine(){
       var attacker:Character
       
@@ -298,36 +344,51 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
     }
   }
   
-  
-  fileprivate func healTarget(_ fighters: inout [Character]) {
-    if let choice = readLine(){
-      var target:Character
-      
-      switch choice {
-      case "1":
-        target = self.playerTeam[0]
-        fighters.append(target)
-        target.heal(attacker:fighters[0], target:fighters[1])
-        fighters[0].characterAttackReset()
-        fighters.removeAll()
-      case "2":
-        target = self.playerTeam[1]
-        fighters.append(target)
-        target.heal(attacker:fighters[0], target:fighters[1])
-        fighters[0].characterAttackReset()
-        fighters.removeAll()
-      case "3":
-        target = self.playerTeam[2]
-        fighters.append(target)
-        target.heal(attacker:fighters[0], target:fighters[1])
-        fighters[0].characterAttackReset()
-        fighters.removeAll()
-      default:
-        print("Je ne comprends pas")
-      }
-      
-    }
+  /**
+   This function contains the process to target an enemy player and attack him. it selects a character and push it in the fighter array index 1.
+   Then it calls the Character function attack
+   Then reset attackers damages in case of class ability execution
+   then it clears the fighter array
+   - Parameters:
+   - enemyPlayer: currently attacked player
+   - fighters: array that contains the two opponent of the figth
+   - id: index of the target character in the playerTeam array
+   */
+  internal func targetEnemy(enemyPlayer: Player, fighters: [Character], id: Int){
+    var fighters = fighters
+    let target = enemyPlayer.playerTeam[id]
+    fighters.append(target)
+    target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
+    // if damages has been changed by a class ability. We reset his damages to his weapon damages
+    fighters[0].characterAttackReset()
+    // Clear the array after fight
+    fighters.removeAll()
   }
+  
+  /**
+   This function contains the process to heal a teammate. it selects a character and push it in the fighter array index 1.
+   Then it calls the Character function heal
+   Then reset attackers heal value in case of class ability execution
+   then it clears the fighter array
+   - Parameters:
+   - fighters: array that contains the two opponent of the figth
+   - id: index of the target character in the playerTeam array
+   */
+  internal func targetTeammate(fighters: [Character], id: Int){
+    var fighters = fighters
+    let target = self.playerTeam[id]
+    fighters.append(target)
+    target.heal(attacker:fighters[0], target:fighters[1])
+    // if heal has been changed by a class ability. We reset his heal to his weapon damages
+    fighters[0].characterAttackReset()
+    // Clear the array after fight
+    fighters.removeAll()
+  }
+  
+  // ///////////////////  //
+  // MARK: FIGHT MECANICS //
+  // //////////////////  //
+  
   
   /**
 Contains all the combat mecanics
@@ -348,61 +409,68 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
       /// Array where we store attacker and target ( will be cleared after each turn)
       var fighters = [Character]()
   
-      //1ST STEP :Choose your fighter
+  //1ST STEP :Choose your fighter
       print("Choisissez votre attaquant")
       displayPlayerChoice(team:self.playerTeam)
       chooseFighter(&fighters)
-
-      //RANDOM STEP: Random spawn a vault
+  
+  //RANDOM STEP: Random spawn a vault
       randomSpawnWeapon(hero: fighters[0])
   
-      //STEP 2A : HEAL A TEAMMATE
-      if fighters[0].classe == .mage {
+  //STEP 2A : HEAL A TEAMMATE
+      if fighters[0].classe == .wizard {
           print("Choisissez la personne que vous voulez soigner")
           displayPlayerChoice(team:self.playerTeam)
-        
-        healTarget(&fighters)
-        
+          healTarget(&fighters)
       }else{
-        
-          //STEP 2B : ATTACK AN ENEMY
+  //STEP 2B : ATTACK AN ENEMY
           print("Choisissez votre cible")
           displayEnemyChoice(team:enemyPlayer.playerTeam, enemy: enemyPlayer)
         
           if let choice = readLine(){
-              var target:Character
-            
               switch choice {
               case "1":
-                  target = enemyPlayer.playerTeam[0]
-                  fighters.append(target)
-                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                  // if damages has been changed by a class ability. We reset his damages to his weapon damages
-                  fighters[0].characterAttackReset()
-                  // Clear the array after fight
-                  fighters.removeAll()
-                
+                targetEnemy(enemyPlayer: enemyPlayer, fighters: fighters, id : 0)
               case "2":
-                  target = enemyPlayer.playerTeam[1]
-                  fighters.append(target)
-                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                  fighters[0].characterAttackReset()
-                  fighters.removeAll()
-             
+                 targetEnemy(enemyPlayer: enemyPlayer, fighters: fighters, id : 1)
               case "3":
-                  target = enemyPlayer.playerTeam[2]
-                  fighters.append(target)
-                  target.attack(attacker:fighters[0], target:fighters[1], enemyPlayer: enemyPlayer)
-                  fighters[0].characterAttackReset()
-                  fighters.removeAll()
-                
+                  targetEnemy(enemyPlayer: enemyPlayer, fighters: fighters, id : 2)
               default:
                   print("Je ne comprends pas")
               }
           }
       }
   }
+  
+  
+  /**
+   This function contains the process to target a teammate and heal him.
+   it offers the possibility to the player to select a teammate and heal him
+   - Parameters:
+   - fighters: array that contains the two opponent of the figth
+   */
+  internal func healTarget(_ fighters: inout [Character]) {
+    if let choice = readLine(){
+      switch choice {
+      case "1":
+        targetTeammate(fighters:fighters, id :0)
+      case "2":
+        targetTeammate(fighters:fighters, id :1)
+      case "3":
+        targetTeammate(fighters:fighters, id :2)
+      default:
+        print("Je ne comprends pas")
+      }
+      
+    }
+  }
 
+  
+  // ///////////////////  //
+  // MARK: VAULT MECANICS //
+  // //////////////////  //
+  
+  
 /**
 This function contains all the vault content
 
@@ -419,7 +487,7 @@ all the custom weapons are stored in an array of Weapons called bonusWeapon
           Scepter()]
     
      // pick a random number to propose a new weapon
-      if hero.classe == .mage {
+      if hero.classe == .wizard {
           ///weapons with index 4 to 6 are for mage
           let randomWeaponMage = Int(arc4random_uniform(UInt32(3) + 3))
           vaultSpawn(randomWeapon:randomWeaponMage, hero:hero, bonusWeapons:bonusWeapons)

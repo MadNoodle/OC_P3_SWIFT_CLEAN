@@ -9,9 +9,15 @@
 import Foundation
 
 
-// ///////////////  //
-// MARK: GAME       //
-// ///////////////  //
+/**
+ This class contains all the Player mecanics
+ ### NOTICE ###
+ This class is called by main Class and is 2nd in the control flow ( main -> Game )
+ ## What does it handle ? ##
+ - Instantiate Players
+ - Turn by turn logic
+ - Winning conditions evaluation
+ */
 
 class Game {
   ///first player to play
