@@ -60,3 +60,44 @@ Before target receives damages he has a random odd to cast an defensive class ab
 * Wizard : Buff the target ha an increased maximum health
 * Colossus: Shield a part of the received damages
 * Dwarf : "Riposte" the dwarf block the attack and give a critical strike to the attacker ( it s never a good idea to attack a dwarf).
+
+
+## BONUS **##
+
+* [Link to the project] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN.git)
+
+**DESCRIPTION**
+
+Each character can randomly summon a class offensive skill as it attacks and a class defensive skill while it is under attack.
+
+! [image alt text] (/docs_image/docs_image_0.png)
+
+** Note: ** the dwarf class has only one defensive skill but deals damage to its enemy (so it has offensive property too).
+
+These skills are based on class statistics: ``` Agility / Strength / Intelligence / wizardry ```. Each class is based on 2 characteristics, which will be used to calculate the probability of invoking the skill as well as the damage it will inflict or prevent.
+
+** Breakdown of characteristics by class **:
+
+! [image alt text] (/docs_image/docs_image_1.png)
+
+** Mechanical allocation of points between the 2 characteristics **
+
+At the time of the creation of a character, the player will have to distribute 10 points between the 2 characteristics specific to the class of the character.
+
+**IMPLEMENTATION**
+
+In the Character class (in charge of the character concept and its actions), we have implemented:
+
+* 4 variables named ``` agility / force / intelligence / wizardry ```.
+
+* 2 methods: ``` offensiveClassAbility ()``` and ```DefensiveClassAbility () ``` in charge of invoking the skill based on a random number based on the main class feature.
+
+* ** Methods specific to each skill ** to apply the new damage of the character. This damage is calculated by algorithm based on the 2 class characteristics.
+
+* A ```CharacterAttackReset () ```method that allows ** to return the hero's damage to their initial class damage at the end of the turn. **
+
+In the ```Class Player ```, in charge of the player's actions during a turn we did call:
+
+*  the method ``` CaracteristicAttribution () ```: allowing to ** spread ** the 10 points during the creation of the character and to verify ** well that the sum of the 2 characteristics is equal to 10. **
+
+* the methods  ``` offensiveClassAbility () ``` and ```DefensiveClassAbility () ```  in the  ```Turn () ``` method to implement this feature.
