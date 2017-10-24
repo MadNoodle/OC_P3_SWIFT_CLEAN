@@ -70,7 +70,7 @@ Before target receives damages he has a random odd to cast an defensive class ab
 
 Each character can randomly summon a class offensive skill as it attacks and a class defensive skill while it is under attack.
 
-! [image alt text] (docs_image_0.png)
+! [image alt text] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN/blob/master/docs_image_0.png)
 
 ** Note: ** the dwarf class has only one defensive skill but deals damage to its enemy (so it has offensive property too).
 
@@ -78,7 +78,7 @@ These skills are based on class statistics: ``` Agility / Strength / Intelligenc
 
 ** Breakdown of characteristics by class **:
 
-! [image alt text] (docs_image_1.png)
+! [image alt text] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN/blob/master/docs_image_1.png)
 
 ** Mechanical allocation of points between the 2 characteristics **
 
