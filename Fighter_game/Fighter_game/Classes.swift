@@ -9,9 +9,4 @@
 /**
  List all the character classes
  */
-public enum Classe {
-  case warrior
-  case wizard
-  case colossus
-  case dwarf
-}
+

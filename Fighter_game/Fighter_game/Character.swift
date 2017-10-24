@@ -9,6 +9,17 @@
 import Foundation
 
 /**
+ List all the character classes
+ */
+
+public enum Classe {
+  case warrior
+  case wizard
+  case colossus
+  case dwarf
+}
+
+/**
 This class contains all characters caracteristics and methods
  it is called in fourth position in control Flow (Main -> Game -> Player -> Character)
 ### List of methods ###
@@ -21,25 +32,25 @@ This class contains all characters caracteristics and methods
 */
 public class Character {
   /// Fighter's name
-  var name : String
+  var name: String
   /// Fighter's class
-  var classe : Classe
+  var classe: Classe
   /// health points
-  var health : Int
+  var health: Int
   /// maxhealth points. This parameter is used to clamp heal value to initial life
-  var maxHealth : Int
+  var maxHealth: Int
   /// class icon. Each class has its own pictogram. It is displayed in Player.showDetails()
-  var icon : String
+  var icon: String
   ///class weapon
-  var weapon : Weapon
+  var weapon: Weapon
   /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
-  var agility:Int
+  var agility: Int
   /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
-  var force:Int
+  var force: Int
   /// class caracteristic ( Mage). Use it to spawn class ability and calculate damages of it
-  var intelligence:Int
+  var intelligence: Int
    ///class caracteristic ( Warrior & Colossus). Use it to spawn class ability and calculate damages of it
-  var wizardry:Int
+  var wizardry: Int
 
   
   // /////////////////////////////////////// //
@@ -48,7 +59,7 @@ public class Character {
   
   
   /// Initialization function to create an instance
-  init(name:String, classe:Classe, agility:Int, force: Int, intelligence:Int, wizardry:Int ){
+  init(name: String, classe: Classe, agility: Int, force: Int, intelligence: Int, wizardry: Int ){
       self.name = name
       self.classe = classe
       self.agility = agility
@@ -96,7 +107,7 @@ public class Character {
    - hero: used to find the hero and destroy him
    - enemyPlayer: used to fetch the enemy player's team
    */
-  internal func die(hero:Character,enemyPlayer: Player){
+  internal func death(of hero: Character,from enemyPlayer: Player){
     if let index = enemyPlayer.playerTeam.index(where: { $0.name == hero.name }) {
       enemyPlayer.playerTeam.remove(at: index)
     }
@@ -118,16 +129,16 @@ There is a sanity check to verify if the target player is alive after dealing da
      - target: a member of enemy team
      - enemyPlayer: used to depopulate playerTeam variable when calls Die()
 */
-  internal func attack(attacker:Character, target:Character, enemyPlayer : Player){
+  internal func attack(from attacker: Character, on target: Character,partOf enemyPlayer: Player){
       //Deal Damage
-      offensiveClassAbility(attacker:attacker,agility: attacker.agility, force: attacker.force, intelligence: attacker.intelligence, wizardry: attacker.wizardry )
-      defensiveClassAbility(target:target, attacker:attacker, agility:target.agility, force: target.force, intelligence: target.intelligence, wizardry:target.wizardry )
+      offensiveClassAbility(attacker: attacker, agility: attacker.agility, force: attacker.force, intelligence: attacker.intelligence, wizardry: attacker.wizardry )
+      defensiveClassAbility(target: target, attacker: attacker, agility:target.agility, force: target.force, intelligence: target.intelligence, wizardry:target.wizardry )
       target.health -= attacker.weapon.damages
       //Check if the character dies
       if target.health <= 0 {
           //Display the message in CLI
           print ("☠️  \(target.name) est mort☠️ ☠️")
-          target.die(hero:target, enemyPlayer: enemyPlayer)
+          target.death(of: target, from: enemyPlayer)
       } else {
           print("\(attacker.name) fait \(attacker.weapon.damages) points de dommage à \(target.name). il lui reste \(target.health) points de vie.")
       }
@@ -144,7 +155,7 @@ This function heals a teammate. It takes the value of an attacker's damage and r
      - target: a member of your team you wish to heal
 */
   
-  internal func heal(attacker:Character, target:Character){
+  internal func heal(from attacker: Character,on target: Character){
       //Check is dead or alive
       if target.health <= 0 {
           print ("☠️ On ne peut pas soigner les morts")
@@ -166,7 +177,7 @@ This function allows the character to change equip a new weapon when a vault spa
      - classWeapon: original class weapon
      - bonusWeapon: bonus weapon
 */
-  internal func switchWeapon(hero: Character, classWeapon:Weapon, bonusWeapon:Weapon){
+  internal func switchWeapon(_ hero: Character,from classWeapon: Weapon,to bonusWeapon: Weapon){
     hero.weapon = bonusWeapon
     hero.weapon.damages = bonusWeapon.damages
     if self.classe == .wizard {
@@ -194,9 +205,9 @@ This function allows the character to change equip a new weapon when a vault spa
      - wizardry
    */
   
-  func classCaracteristic(force:Int, agility:Int, intelligence:Int, wizardry:Int) -> (Int, Int) {
-    var caracteristic1:Int
-    var caracteristic2:Int
+  func classCaracteristic(force: Int, agility: Int, intelligence: Int, wizardry: Int) -> (Int, Int) {
+    var caracteristic1: Int
+    var caracteristic2: Int
     
     switch self.classe {
     case .warrior:
@@ -289,7 +300,7 @@ This function allows the character to change equip a new weapon when a vault spa
        - intelligence: class caracteristic
        - wizardry: class caracteristic
    */
-  private func offensiveClassAbility(attacker:Character,agility:Int, force: Int, intelligence:Int, wizardry:Int ){
+  private func offensiveClassAbility(attacker: Character,agility: Int, force: Int, intelligence: Int, wizardry: Int ){
     ///Main class caracterisitic. Acts on the odd to cast the ability and the damage algorithm
     /// random number that allows us to check if the ability is casted
     var interval = 0
@@ -322,7 +333,7 @@ This function allows the character to change equip a new weapon when a vault spa
        - intelligence: class caracteristic
        - wizardry: class caracteristic
    */
-  private func defensiveClassAbility(target:Character, attacker:Character, agility:Int, force: Int, intelligence:Int, wizardry:Int ){
+  private func defensiveClassAbility(target: Character, attacker: Character, agility: Int, force: Int, intelligence: Int, wizardry: Int ){
     /// random number that allows us to check if the ability is casted
     var interval = 0
     let (caracteristic1, caracteristic2) = classCaracteristic(force: force, agility: agility, intelligence: intelligence, wizardry: wizardry)

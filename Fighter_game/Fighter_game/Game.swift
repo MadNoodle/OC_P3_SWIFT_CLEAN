@@ -45,12 +45,12 @@ class Game {
       //TURN BY TURN LOGIC
       while player1.playerTeam.count>0 && player2.playerTeam.count>0 {
           // player 1 plays
-          player1.turn(enemyPlayer:player2)
+          player1.turn(against:player2)
           winCheck()
           // Condition to interrupt loop if player 2 loses
           if player2.playerTeam.count>0 {
           // player 2 plays
-          player2.turn(enemyPlayer:player1)
+          player2.turn(against:player1)
           winCheck()
         }
       }

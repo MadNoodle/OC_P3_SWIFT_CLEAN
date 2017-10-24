@@ -14,11 +14,11 @@ import Foundation
 
 public class Weapon {
   ///amount of damages
-    var damages:Int
+    var damages: Int
   ///name of the weapon
-    var name:String
+    var name: String
     
-    init(name:String, damages:Int){
+    init(name: String, damages: Int){
         self.name = name
         self.damages = damages
     }
