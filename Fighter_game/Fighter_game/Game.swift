@@ -10,7 +10,7 @@ import Foundation
 
 
 /**
- This class contains all the Player mecanics
+ This struct contains all the Player mecanics
  ### NOTICE ###
  This class is called by main Class and is 2nd in the control flow ( main -> Game )
  ## What does it handle ? ##
@@ -19,7 +19,7 @@ import Foundation
  - Winning conditions evaluation
  */
 
-class Game {
+struct Game {
   ///first player to play
   var player1:Player
   ///second player to play
@@ -38,7 +38,7 @@ class Game {
  * the game ends when all the characters of one player team are dead -> each turn we check player's team count
  * We check for winning conditions each turn calling winCheck
  */
-  func newGame(){
+  mutating func newGame(){
       player1.createPlayerTeam()
       player2.createPlayerTeam()
     
