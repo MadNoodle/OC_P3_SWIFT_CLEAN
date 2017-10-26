@@ -33,7 +33,7 @@ class Player {
   
   
   // //////////////////////////// //
-  // MARK : INTERACTIONS / INPUT //
+  // MARK: INTERACTIONS / INPUT //
   // //////////////////////////// //
   
   
@@ -50,13 +50,13 @@ class Player {
       if number.rangeOfCharacter(from: numberCharacters) == nil {
         return Int(number)!
     } else {
-        print("Veuillez entrer un chiffre")
+        print("\u{001B}[0;31mVeuillez entrer un chiffre\u{001B}[0;37m")
       return 0
     }
   }
 
   // //////////////////////////////////////// //
-  // MARK : CREATE A PLAYER CONTROL FLOW      //
+  // MARK: CREATE A PLAYER CONTROL FLOW      //
   // //////////////////////////////////////// //
   
   
@@ -64,7 +64,7 @@ class Player {
  Function prompts user to enter his name
  */
  public func playerName() {
-      print("QUEL EST LE NOM DU JOUEUR \(self.id)?")
+      print("\u{001B}[0;33mVEUILLEZ ENTRER LE NOM DU JOUEUR \(self.id)?\u{001B}[0;37m")
       if let playerName = readLine(){
           self.name = playerName
       }
@@ -84,23 +84,31 @@ Conditions to fullfill to create a player
  public func createPlayerTeam(){
       // ask for player to enter his name
       playerName()
-      print("\u{001B}[0;33m \(self.name) VA COMPOSER SON EQUIPE\u{001B}[0;37m")
+      print("\n"
+        + "\u{001B}[0;33m\(self.name) VA COMPOSER SON EQUIPE\u{001B}[0;37m"
+        + "\nVous allez devoir créer 3 héros"
+        + "\nChacun de vos heros devra avoir un nom et une profession"
+        + "\n")
     
       while playerTeam.count<3{
+       let count = playerTeam.count
           ///instance of a character. it has a name, a class, a weapon, a health value and damages
-          let hero = createHero()
+        let hero = createHero(count : count)
 
           //Name checking for duplicates
           if playerTeam.contains (where: { $0.name == hero.name }) {
-              print("Ce guerrier existe déjà, Choisissez un autre nom")
+              print("\u{001B}[0;31mCe guerrier existe déjà, Choisissez un autre nom\u{001B}[0;37m")
           } else {
               //add hero to team
               playerTeam.append(hero)
+              print("\n"
+              + "\u{001B}[0;33m VOTRE HEROS A BIEN ÉTÉ CRÉÉ \u{001B}[0;37m")
               showTeam()
           }
           //limit team's size to 3
           if playerTeam.count == 3 {
-              print("\u{001B}[0;31m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\(self.name) EST PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
+              print("\n"
+                + "\u{001B}[0;33m⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\(self.name) EST PRET A COMBATTRE⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔\u{001B}[0;37m")
           }
       }
   }
@@ -111,11 +119,12 @@ Conditions to fullfill to create a player
    * aks for user to select a class
    * ask the player to dispatch 10 pts in 2 class caracteritics
    */
-  private func createHero() -> Character {
+  private func createHero(count:Int) -> Character {
     ///User keyboard input
+    let index = count + 1
     var userChoice: Int
     /// Name given to the champ you are instantiating
-    let heroName = nameChamp()
+    let heroName = nameChamp(index: index)
     
     repeat {
       userChoice = promptClass()
@@ -163,19 +172,19 @@ Conditions to fullfill to create a player
   
   
   // ///////////////////////////////// //
-  // MARK : INTANTIATION FUNCTIONS     //
+  // MARK: INTANTIATION FUNCTIONS     //
   // ///////////////////////////////// //
   
   /**
    This function asks the user to give a name to his champion
    */
-  func nameChamp() -> String {
-    print ("\(self.name), comment s'appelle votre guerrier?")
+  func nameChamp(index : Int) -> String {
+    print ("\u{001B}[0;33m\(self.name), QUEL EST LE NOM DE VOTRE COMBATTANT N°\(index)?\u{001B}[0;37m")
     var name = ""
     
     if let nameChamp = readLine(){
       name = nameChamp
-      print("Votre héros s'appelle \(nameChamp)")
+      print("Votre héros n°\(index) s'appelle \(nameChamp)")
     }
     return name
   }
@@ -189,8 +198,9 @@ Conditions to fullfill to create a player
    - SecondaryCar : secondary caracteristic of the hero
    */
   func caracteristicAttribution(mainCar: String, SecondaryCar: String) -> (Int, Int){
-    print("Vous avez 10 points à répartir entre vos deux caracteristiques de classe (\(mainCar) &  \(SecondaryCar))"
-      + "\n Combien de points voulez vous attribuez en \(mainCar)?")
+    print("\n"
+      + "\u{001B}[0;33mVous avez 10 points à répartir entre vos deux caracteristiques de classe (\(mainCar) &  \(SecondaryCar))\u{001B}[0;37m"
+      + "\nCombien de points voulez vous attribuez en \(mainCar)?")
     let carcateristicMain = keyInput()
     print("Combien de points voulez vous attribuez en \(SecondaryCar)?")
     let caracteristicSecondary = keyInput()
@@ -205,9 +215,10 @@ Conditions to fullfill to create a player
     // Choose character class
     
     print ("\n"
-      + "Quelle est sa profession ?"
+      + "\u{001B}[0;33m QUELLE EST SA PROFESSION ? (Tapez 1, 2, 3 ou 4 pour faire votre choix)\u{001B}[0;37m"
+      + "\n"
       + "\n1. Guerrier    ⚔    ❤️  vie: 100 pts     ⚔  Arme : Epée              🎯  Dommages: 50 pts"
-      + "\n2. Mage        ✚     ❤️  vie: 50 pts      ⚔  Arme : Baguette magique  💧  Soins: 25 pts"
+      + "\n2. Mage        ✚    ❤️  vie: 50 pts      ⚔  Arme : Baguette magique  💧  Soins: 25 pts"
       + "\n3. Colosse     ⛰    ❤️  vie: 100 pts     ⚔  Arme : Poing             🎯  Dommages: 5 pts"
       + "\n4. Nain        ⚒    ❤️  vie: 25 pts      ⚔  Arme : Haches            🎯  Dommages: 30 pts"
       + "\n")
@@ -216,7 +227,7 @@ Conditions to fullfill to create a player
   }
   
   // //////////////////////////// //
-  // MARK : UI FUNCTIONS             //
+  // MARK: UI FUNCTIONS             //
   // //////////////////////////// //
 /**
 Show Character details. There are 2 types :
@@ -305,9 +316,9 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
 */
  internal func turn(against enemyPlayer: Player){
       print("=====================AU TOUR DU JOUEUR \(self.id) DE JOUER====================="
-          + "\n Que souhaitez vous faire?"
-          + "\n1. 👁 voir l'état de votre équipe"
-          + "\n2. ⚔ attaquer")
+          + "\n\u{001B}[0;33mQUE SOUHAITEZ VOUS FAIRE?"
+          + "\n1. 👁 VOIR VOTRE EQUIPE - Tapez 1"
+          + "\n2. ⚔ COMBATTRE (attaquer un enemi ou soigner un ami) - Tapez 2 \u{001B}[0;37m")
     
       if let userChoice = readLine(){
           switch userChoice {
@@ -412,7 +423,7 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
       var fighters = [Character]()
   
   //1ST STEP :Choose your fighter
-      print("Choisissez votre attaquant")
+      print("\u{001B}[0;33mSELECTIONNEZ UN ATTAQUANT (tapez 1, 2 ou 3)\u{001B}[0;37m")
       displayPlayerChoice(of: self.playerTeam)
       chooseFighter(&fighters)
   
@@ -421,12 +432,12 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
   
   //STEP 2A : HEAL A TEAMMATE
       if fighters[0].classe == "Mage"{
-          print("Choisissez la personne que vous voulez soigner")
+          print("\u{001B}[0;33mCHOISISSEZ LE COEQUIPIER A SOIGNER(tapez 1, 2 ou 3)\u{001B}[0;37m")
           displayPlayerChoice(of: self.playerTeam)
           healTarget(&fighters)
       }else{
   //STEP 2B : ATTACK AN ENEMY
-          print("Choisissez votre cible")
+          print("\u{001B}[0;33mCHOISISSEZ VOTRE CIBLE (tapez 1, 2 ou 3)\u{001B}[0;37m")
           displayEnemyChoice(team: enemyPlayer.playerTeam, enemy: enemyPlayer)
         
           if let choice = readLine(){

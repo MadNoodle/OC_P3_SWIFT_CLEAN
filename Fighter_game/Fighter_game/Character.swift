@@ -44,7 +44,7 @@ public class Character {
 
   
   // /////////////////////////////////////// //
-  // MARK : INSTATIATION & DESTROY FUNCTIONS //
+  // MARK: INSTATIATION & DESTROY FUNCTIONS //
   // /////////////////////////////////////// //
   
   
@@ -60,8 +60,6 @@ public class Character {
       self.maxHealth = maxHealth
       self.icon = icon
       self.weapon = weapon
-    
-    
   }
   
   /**
@@ -76,9 +74,46 @@ public class Character {
     }
   }
 
+  /**
+   this functions allocates the caracteristics for each class and dispatch them for calculation of invokation odss
+   ## Class caracteristics description ##
+   * Warrior : Force & Agility
+   * Wizard : Intelligence & Wizardry
+   * Colossus : Force & Wizardry
+   * Dwarf : Agility & Force
+   - parameters:
+   - force
+   - agility
+   - intelligence
+   - wizardry
+   */
+  
+  internal func classCaracteristic(force: Int, agility: Int, intelligence: Int, wizardry: Int) -> (Int, Int) {
+    var caracteristic1: Int!
+    var caracteristic2: Int!
+    
+    switch self.classe {
+    case "Guerrier":
+      caracteristic1 = force
+      caracteristic2 = agility
+    case "Mage":
+      caracteristic1 = intelligence
+      caracteristic2 = wizardry
+    case "Colosse":
+      caracteristic1 = force
+      caracteristic2 = wizardry
+    case "Nain":
+      caracteristic1 = agility
+      caracteristic2 = force
+    default:
+      break
+    }
+    return (caracteristic1, caracteristic2)
+  }
+  
   
   // ///////////////////////////////////////////// //
-  // MARK : INTERACTIONS WITH CHARACTERS & OBJECTS //
+  // MARK: INTERACTIONS WITH CHARACTERS & OBJECTS //
   // ///////////////////////////////////////////// //
   
   
@@ -153,118 +188,20 @@ This function allows the character to change equip a new weapon when a vault spa
   }
   
   // ////////////////////// //
-  // MARK : CLASS ABILITIES //
+  // MARK: CLASS ABILITIES //
   // ////////////////////// //
-  /**
-   this functions allocates the caracteristics for each class and dispatch them for calculation of invokation odss
-   ## Class caracteristics description ##
-   * Warrior : Force & Agility
-   * Wizard : Intelligence & Wizardry
-   * Colossus : Force & Wizardry
-   * Dwarf : Agility & Force
-   - parameters:
-     - force
-     - agility
-     - intelligence
-     - wizardry
-   */
-  
-  func classCaracteristic(force: Int, agility: Int, intelligence: Int, wizardry: Int) -> (Int, Int) {
-    var caracteristic1: Int!
-    var caracteristic2: Int!
-    
-    switch self.classe {
-    case "Guerrier":
-      caracteristic1 = force
-      caracteristic2 = agility
-    case "Mage":
-      caracteristic1 = intelligence
-      caracteristic2 = wizardry
-    case "Colosse":
-      caracteristic1 = force
-      caracteristic2 = wizardry
-    case "Nain":
-      caracteristic1 = agility
-      caracteristic2 = force
-    default:
-      break
-    }
-    return (caracteristic1, caracteristic2)
-  }
-
-  // //////////////// //
-  // MARK : WARRIOR   //
-  // //////////////// //
-  
-  private func warriorOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
-    ///critical strike damage algorithm
-    let critFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
-    attacker.weapon.damages *= critFactor
-    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe COUP CRITIQUE et inflige \(attacker.weapon.damages)")
-  }
-  
-  private func warriorDefensiveAbility(_ attacker: Character, _ target: Character) {
-    attacker.weapon.damages = 0
-    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe et BLOQUE L'ATTAQUE. Il ne reçoit pas de dégats.")
-  }
-  
-  // //////////////// //
-  // MARK : WIZARD    //
-  // //////////////// //
-  
-  private func wizardOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
-    ///critical heal damage algorithm
-    let critHealFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
-    attacker.weapon.damages *= critHealFactor
-    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe AMELIORATION et soigne \(attacker.weapon.damages)")
-  }
-  
-  private func wizardDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ target: Character) {
-    let buff = (caracteristic2 + (caracteristic1 / caracteristic2))
-    target.maxHealth += buff
-    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe REVIGORATION")
-  }
-  
-  // ///////////////// //
-  // MARK : COLOSSUS   //
-  // ///////////////// //
-  
-  private func colossusOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
-    /// damage of the colossus's minion
-    let minionDmg = (1+(caracteristic2 / caracteristic1))
-    attacker.weapon.damages *= minionDmg
-    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe INVOCATION FAMILIER. Le familier mord la cible et inglige \(attacker.weapon.damages)")
-  }
-  
-  private func colossusDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character, _ target: Character) {
-    let shield = (caracteristic2 * 2 + (caracteristic1 / caracteristic2))
-    attacker.weapon.damages -= shield
-    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe MURAILLE")
-  }
-  
-  // /////////////// //
-  // MARK : DWARF    //
-  // /////////////// //
-  
-  private func dwardDefensiveAbility(_ attacker: Character, _ caracteristic1: Int, _ caracteristic2: Int, _ target: Character) {
-    attacker.weapon.damages = 0
-    let riposte = caracteristic1 * (((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
-    attacker.health -= riposte
-    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe PARADE RIPOSTE. Il reçoit \(attacker.weapon.damages) points de dégats. Puis il lance férocement sa hache sur \(attacker.name) et lui inflige \(riposte) points de dégats")
-  }
-  
   // /////////////////////////////////// //
-  // MARK : CLASS ABILITIES ODDS & INVOKE//
+  // MARK: CLASS ABILITIES ODDS & INVOKE//
   // /////////////////////////////////// //
   
   /**
    This function randomly calls a class ability to enhance attackers damages during the current turn
-     - Parameters:
-       - attacker: the hero which casts the ability
-       - agility: class caracteristic
-       - force: class caracteristic
-       - intelligence: class caracteristic
-       - wizardry: class caracteristic
+   - Parameters:
+   - attacker: the hero which casts the ability
+   - agility: class caracteristic
+   - force: class caracteristic
+   - intelligence: class caracteristic
+   - wizardry: class caracteristic
    */
   private func offensiveClassAbility(attacker: Character,agility: Int, force: Int, intelligence: Int, wizardry: Int ){
     ///Main class caracterisitic. Acts on the odd to cast the ability and the damage algorithm
@@ -294,12 +231,12 @@ This function allows the character to change equip a new weapon when a vault spa
   
   /**
    This function randomly calls a class ability to enhance target damages during the current turn
-     - Parameters:
-       - attacker: the hero which casts the ability
-       - agility: class caracteristic
-       - force: class caracteristic
-       - intelligence: class caracteristic
-       - wizardry: class caracteristic
+   - Parameters:
+   - attacker: the hero which casts the ability
+   - agility: class caracteristic
+   - force: class caracteristic
+   - intelligence: class caracteristic
+   - wizardry: class caracteristic
    */
   private func defensiveClassAbility(target: Character, attacker: Character, agility: Int, force: Int, intelligence: Int, wizardry: Int ){
     /// random number that allows us to check if the ability is casted
@@ -325,12 +262,73 @@ This function allows the character to change equip a new weapon when a vault spa
       }
     }
   }
-/**
- Function to reset attackers damage at the end of turn. It prevents him to keep insane damages
- */
+  /**
+   Function to reset attackers damage at the end of turn. It prevents him to keep insane damages
+   */
   public func characterAttackReset(){
-       self.weapon.damages = weapon.damages
+    self.weapon.damages = weapon.damages
   }
 
+  // //////////////// //
+  // MARK: WARRIOR   //
+  // //////////////// //
+  
+  private func warriorOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    ///critical strike damage algorithm
+    let critFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
+    attacker.weapon.damages *= critFactor
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe COUP CRITIQUE et inflige \(attacker.weapon.damages) points de dégats")
+  }
+  
+  private func warriorDefensiveAbility(_ attacker: Character, _ target: Character) {
+    attacker.weapon.damages = 0
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe et BLOQUE L'ATTAQUE. Il ne reçoit pas de dégats.")
+  }
+  
+  // //////////////// //
+  // MARK: WIZARD    //
+  // //////////////// //
+  
+  private func wizardOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    ///critical heal damage algorithm
+    let critHealFactor = (1 + (caracteristic2 / (1 + caracteristic1)) + caracteristic1)
+    attacker.weapon.damages *= critHealFactor
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe AMELIORATION et soigne \(attacker.weapon.damages) points de vie")
+  }
+  
+  private func wizardDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ target: Character) {
+    let buff = (caracteristic2 + (caracteristic1 / caracteristic2))
+    target.maxHealth += buff
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe REVIGORATION")
+  }
+  
+  // ///////////////// //
+  // MARK: COLOSSUS   //
+  // ///////////////// //
+  
+  private func colossusOffensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character) {
+    /// damage of the colossus's minion
+    let minionDmg = (1+(caracteristic2 / caracteristic1))
+    attacker.weapon.damages *= minionDmg
+    print("\(attacker.name) le \(attacker.classe) utilise sa compétence offensive de classe INVOCATION FAMILIER. Le familier mord la cible et inglige \(attacker.weapon.damages) points de dégats")
+  }
+  
+  private func colossusDefensiveAbility(_ caracteristic2: Int, _ caracteristic1: Int, _ attacker: Character, _ target: Character) {
+    let shield = (caracteristic2 * 2 + (caracteristic1 / caracteristic2))
+    attacker.weapon.damages -= shield
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe MURAILLE et absorbe \(shield) points de dégats")
+  }
+  
+  // /////////////// //
+  // MARK: DWARF    //
+  // /////////////// //
+  
+  private func dwardDefensiveAbility(_ attacker: Character, _ caracteristic1: Int, _ caracteristic2: Int, _ target: Character) {
+    attacker.weapon.damages = 0
+    let riposte = caracteristic1 * (((2 * caracteristic2) / (1 + caracteristic1)) + caracteristic1)
+    attacker.health -= riposte
+    print("\(target.name) le \(target.classe) utilise sa compétence defensive de classe PARADE RIPOSTE. Il reçoit \(attacker.weapon.damages) points de dégats. Puis il lance férocement sa hache sur \(attacker.name) et lui inflige \(riposte) points de dégats")
+  }
+  
 }
 

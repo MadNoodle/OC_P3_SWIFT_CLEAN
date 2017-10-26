@@ -61,6 +61,9 @@ Before target receives damages he has a random odd to cast an defensive class ab
 * Colossus: Shield a part of the received damages
 * Dwarf : "Riposte" the dwarf block the attack and give a critical strike to the attacker ( it s never a good idea to attack a dwarf).
 
+## LOGIC DIAGRAM
+
+![diagramme_logic](https://user-images.githubusercontent.com/23486492/32066946-bcf565a4-ba81-11e7-870e-8ce17bb0d912.jpeg)
 
 ## BONUS **##
 
