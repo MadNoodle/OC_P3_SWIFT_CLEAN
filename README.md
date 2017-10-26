@@ -65,6 +65,8 @@ Before target receives damages he has a random odd to cast an defensive class ab
 
 ![diagramme_logic](https://user-images.githubusercontent.com/23486492/32066946-bcf565a4-ba81-11e7-870e-8ce17bb0d912.jpeg)
 
+![diagramme_classes](https://user-images.githubusercontent.com/23486492/32068798-8d071508-ba87-11e7-808d-c320bc2eb6d6.jpeg)
+
 ## BONUS **##
 
 * [Link to the project] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN.git)
@@ -73,7 +75,7 @@ Before target receives damages he has a random odd to cast an defensive class ab
 
 Each character can randomly summon a class offensive skill as it attacks and a class defensive skill while it is under attack.
 
-! [image alt text] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN/blob/master/docs_image_0.png)
+![docs_image_0](https://user-images.githubusercontent.com/23486492/32068843-af9dd5b6-ba87-11e7-8b75-d30a0ad3b72c.png)
 
 ** Note: ** the dwarf class has only one defensive skill but deals damage to its enemy (so it has offensive property too).
 
@@ -81,7 +83,7 @@ These skills are based on class statistics: ``` Agility / Strength / Intelligenc
 
 ** Breakdown of characteristics by class **:
 
-! [image alt text] (https://github.com/MadNoodle/OC_P3_SWIFT_CLEAN/blob/master/docs_image_1.png)
+![docs_image_1](https://user-images.githubusercontent.com/23486492/32068862-bfb1e79e-ba87-11e7-8a76-26597a7265e4.png)
 
 ** Mechanical allocation of points between the 2 characteristics **
 
