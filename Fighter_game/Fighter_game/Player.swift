@@ -111,7 +111,7 @@ Conditions to fullfill to create a player
    * aks for user to select a class
    * ask the player to dispatch 10 pts in 2 class caracteritics
    */
-  private func createHero() -> Character{
+  private func createHero() -> Character {
     ///User keyboard input
     var userChoice: Int
     /// Name given to the champ you are instantiating
@@ -126,37 +126,39 @@ Conditions to fullfill to create a player
     //Classe selection - assuming the optionnal have a value cf. sanity check
     var (agility, force, intelligence, wizardry) = (0, 0, 0, 0)
    
-    var classe: Classe!
+   
+    var champion: Character!
     
     switch userChoice {
     case 1:
-      classe = .warrior
       repeat {
         (force, agility) = caracteristicAttribution(mainCar: "FORCE", SecondaryCar: "AGILITÉ")
       }while (agility + force + intelligence + wizardry) != 10
+      champion = Warrior(name:heroName,agility:agility,force:force)
+  
     case 2:
-      classe = .wizard
       repeat {
         (intelligence,wizardry) = caracteristicAttribution(mainCar: "INTELLIGENCE", SecondaryCar: "SORCELLERIE")
       } while (agility + force + intelligence + wizardry) != 10
+      champion = Wizard(name:heroName,intelligence:intelligence,wizardry:wizardry)
+     
     case 3:
-      classe = .colossus
       repeat {
         (force,wizardry) = caracteristicAttribution(mainCar: "FORCE", SecondaryCar: "WIZARDRY")
       }while (agility + force + intelligence + wizardry) != 10
+     champion = Colossus(name:heroName,force:force,wizardry:wizardry)
+ 
     case 4:
-      classe = .dwarf
       repeat{
         (agility,force) = caracteristicAttribution(mainCar: "AGILITÉ", SecondaryCar: "FORCE")
       }while (agility + force + intelligence + wizardry) != 10
+      champion = Dwarf(name:heroName,agility:agility,force:force)
+   
     default:
       break
-    }
+      }
     
-    ///Hero you are instantiating
-    let champion = Character(name: heroName, classe:classe, agility: agility, force: force, intelligence: intelligence, wizardry: wizardry)
-    //Return Object
-    return champion
+   return champion
   }
   
   
@@ -187,7 +189,7 @@ Conditions to fullfill to create a player
    - SecondaryCar : secondary caracteristic of the hero
    */
   func caracteristicAttribution(mainCar: String, SecondaryCar: String) -> (Int, Int){
-    print("Vous avez 10 points à répartir entre vos eux caracteristiques de classe"
+    print("Vous avez 10 points à répartir entre vos deux caracteristiques de classe (\(mainCar) &  \(SecondaryCar))"
       + "\n Combien de points voulez vous attribuez en \(mainCar)?")
     let carcateristicMain = keyInput()
     print("Combien de points voulez vous attribuez en \(SecondaryCar)?")
@@ -237,7 +239,7 @@ it shows the following values:
       ///detailed caracteristics displayed on one line
       let detail: String
     
-      if playerTeam[id].classe == .wizard{
+      if playerTeam[id].classe == "Mage"{
           detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 💧  Soins: \(playerTeam[id].weapon.damages)"
       }else{
           detail = "               Nom: \(playerTeam[id].name) - \(playerTeam[id].icon)    Classe : \(playerTeam[id].classe) -     ❤️  vie:  \(playerTeam[id].health) pts -    ⚔  Arme : \(playerTeam[id].weapon.name) - 🎯 Dommages : \(playerTeam[id].weapon.damages)"}
@@ -418,7 +420,7 @@ The function takes one parameter enemyPlayer to take in consideration the two pl
       randomSpawnWeapon(for: fighters[0])
   
   //STEP 2A : HEAL A TEAMMATE
-      if fighters[0].classe == .wizard {
+      if fighters[0].classe == "Mage"{
           print("Choisissez la personne que vous voulez soigner")
           displayPlayerChoice(of: self.playerTeam)
           healTarget(&fighters)
@@ -487,7 +489,7 @@ all the custom weapons are stored in an array of Weapons called bonusWeapon
           Scepter()]
     
      // pick a random number to propose a new weapon
-      if hero.classe == .wizard {
+      if hero.classe == "Mage" {
           ///weapons with index 4 to 6 are for mage
           let randomWeaponMage = Int(arc4random_uniform(UInt32(3) + 3))
           vaultSpawn(randomWeapon: randomWeaponMage, hero: hero, bonusWeapons: bonusWeapons)

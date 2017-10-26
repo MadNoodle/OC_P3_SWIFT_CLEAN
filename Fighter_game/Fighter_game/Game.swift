@@ -12,7 +12,7 @@ import Foundation
 /**
  This struct contains all the Player mecanics
  ### NOTICE ###
- This class is called by main Class and is 2nd in the control flow ( main -> Game )
+ This struct is called by main Class and is 2nd in the control flow ( main -> Game )
  ## What does it handle ? ##
  - Instantiate Players
  - Turn by turn logic

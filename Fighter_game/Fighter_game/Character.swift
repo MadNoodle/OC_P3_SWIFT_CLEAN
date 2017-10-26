@@ -8,16 +8,6 @@
 
 import Foundation
 
-/**
- List all the character classes
- */
-
-public enum Classe {
-  case warrior
-  case wizard
-  case colossus
-  case dwarf
-}
 
 /**
 This class contains all characters caracteristics and methods
@@ -34,7 +24,7 @@ public class Character {
   /// Fighter's name
   var name: String
   /// Fighter's class
-  var classe: Classe
+  var classe = ""
   /// health points
   var health: Int
   /// maxhealth points. This parameter is used to clamp heal value to initial life
@@ -44,13 +34,13 @@ public class Character {
   ///class weapon
   var weapon: Weapon
   /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
-  var agility: Int
+  var agility = 0
   /// class caracteristic ( Warrior & dwarf). Use it to spawn class ability and calculate damages of it
-  var force: Int
+  var force = 0
   /// class caracteristic ( Mage). Use it to spawn class ability and calculate damages of it
-  var intelligence: Int
+  var intelligence = 0
    ///class caracteristic ( Warrior & Colossus). Use it to spawn class ability and calculate damages of it
-  var wizardry: Int
+  var wizardry = 0
 
   
   // /////////////////////////////////////// //
@@ -59,47 +49,20 @@ public class Character {
   
   
   /// Initialization function to create an instance
-  init(name: String, classe: Classe, agility: Int, force: Int, intelligence: Int, wizardry: Int ){
+  init(name: String, classe:String, health:Int,maxHealth:Int, icon:String, weapon:Weapon,agility: Int, force: Int, intelligence: Int, wizardry: Int ){
       self.name = name
       self.classe = classe
       self.agility = agility
       self.force = force
       self.intelligence = intelligence
       self.wizardry = wizardry
-      self.health = 0
-      self.maxHealth = 0
-      self.icon = ""
-      self.weapon = Epee()
+      self.health = health
+      self.maxHealth = maxHealth
+      self.icon = icon
+      self.weapon = weapon
     
-      //initialize class caracteristics
-      switch self.classe{
-      case .warrior:
-        initHero(health: 100, maxHealth: 100, icon: "⚔", weapon:Epee())
-      case .wizard:
-         initHero(health: 50, maxHealth: 50, icon: "✚", weapon: Wand())
-      case .colossus:
-        initHero(health: 150, maxHealth: 150, icon: "⛰", weapon: Fists())
-      case .dwarf:
-        initHero(health: 25, maxHealth: 25, icon: "⚒", weapon: Axe())
-    }
     
   }
-  
-/**
-   This function inits all class related variables
-   - Parameters:
-     - health: health value Int
-     - maxHealth: health cap int
-     - icon: class Icon
-     - weapon: class weapon
- */
-  private func initHero(health: Int, maxHealth: Int, icon: String, weapon: Weapon){
-    self.health = health
-    self.maxHealth = maxHealth
-    self.icon = icon
-    self.weapon = weapon
-  }
-  
   
   /**
    This function destroy the hero. It looks in playerTeam array for the hero and remove him.
@@ -133,6 +96,7 @@ There is a sanity check to verify if the target player is alive after dealing da
       //Deal Damage
       offensiveClassAbility(attacker: attacker, agility: attacker.agility, force: attacker.force, intelligence: attacker.intelligence, wizardry: attacker.wizardry )
       defensiveClassAbility(target: target, attacker: attacker, agility:target.agility, force: target.force, intelligence: target.intelligence, wizardry:target.wizardry )
+    
       target.health -= attacker.weapon.damages
       //Check if the character dies
       if target.health <= 0 {
@@ -180,7 +144,7 @@ This function allows the character to change equip a new weapon when a vault spa
   internal func switchWeapon(_ hero: Character,from classWeapon: Weapon,to bonusWeapon: Weapon){
     hero.weapon = bonusWeapon
     hero.weapon.damages = bonusWeapon.damages
-    if self.classe == .wizard {
+    if self.classe == "Mage" {
       print("VOUS VOUS EQUIPEZ DE \(bonusWeapon.name) ET VOUS SOIGNEZ \(bonusWeapon.damages)PTS DE VIE")
     } else{
       print("VOUS VOUS EQUIPEZ DE \(bonusWeapon.name) ET VOUS FAITES DESORMAIS \(bonusWeapon.damages)PTS DE DOMMAGE")
@@ -206,22 +170,24 @@ This function allows the character to change equip a new weapon when a vault spa
    */
   
   func classCaracteristic(force: Int, agility: Int, intelligence: Int, wizardry: Int) -> (Int, Int) {
-    var caracteristic1: Int
-    var caracteristic2: Int
+    var caracteristic1: Int!
+    var caracteristic2: Int!
     
     switch self.classe {
-    case .warrior:
+    case "Guerrier":
       caracteristic1 = force
       caracteristic2 = agility
-    case .wizard:
+    case "Mage":
       caracteristic1 = intelligence
       caracteristic2 = wizardry
-    case .colossus:
+    case "Colosse":
       caracteristic1 = force
       caracteristic2 = wizardry
-    case .dwarf:
+    case "Nain":
       caracteristic1 = agility
       caracteristic2 = force
+    default:
+      break
     }
     return (caracteristic1, caracteristic2)
   }
@@ -312,13 +278,15 @@ This function allows the character to change equip a new weapon when a vault spa
     // 11 to prevent 100% chance of casting ability
     if interval >= 11 {
       switch self.classe {
-      case .warrior:
+      case "Guerrier":
         warriorOffensiveAbility(caracteristic2, caracteristic1, attacker)
-      case .wizard:
+      case "Mage":
         wizardOffensiveAbility(caracteristic2, caracteristic1, attacker)
-      case .colossus:
+      case "Colosse":
         colossusOffensiveAbility(caracteristic2, caracteristic1, attacker)
-      case .dwarf:
+      case "Nain":
+        break
+      default:
         break
       }
     }
@@ -344,14 +312,16 @@ This function allows the character to change equip a new weapon when a vault spa
     // 11 to prevent 100% chance of casting ability
     if interval >= 11 {
       switch self.classe {
-      case .warrior:
+      case "Guerrier":
         warriorDefensiveAbility(attacker, target)
-      case .wizard:
+      case "Mage":
         wizardDefensiveAbility(caracteristic2, caracteristic1, target)
-      case .colossus:
+      case "Colosse":
         colossusDefensiveAbility(caracteristic2, caracteristic1, attacker, target)
-      case .dwarf:
+      case "Nain":
         dwardDefensiveAbility(attacker, caracteristic1, caracteristic2, target)
+      default:
+        break
       }
     }
   }
