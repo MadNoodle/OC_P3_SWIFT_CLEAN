@@ -12,7 +12,21 @@
 		B9418A4D1F94AE97008737E3 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A4C1F94AE97008737E3 /* Character.swift */; };
 		B9418A511F94AF3A008737E3 /* Weapons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A501F94AF3A008737E3 /* Weapons.swift */; };
 		B9418A531F94EE3E008737E3 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9418A521F94EE3E008737E3 /* Game.swift */; };
-		B9BEB87A1FA2316E0069E4FA /* Professions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8791FA2316E0069E4FA /* Professions.swift */; };
+		B9BEB87A1FA2316E0069E4FA /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8791FA2316E0069E4FA /* Warrior.swift */; };
+		B9BEB87C1FA25AF60069E4FA /* Wizard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB87B1FA25AF60069E4FA /* Wizard.swift */; };
+		B9BEB87E1FA25B0C0069E4FA /* Colossus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB87D1FA25B0C0069E4FA /* Colossus.swift */; };
+		B9BEB8801FA25B240069E4FA /* Dwarf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB87F1FA25B240069E4FA /* Dwarf.swift */; };
+		B9BEB8841FA25B9F0069E4FA /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8831FA25B9F0069E4FA /* Sword.swift */; };
+		B9BEB8861FA25BBA0069E4FA /* Wand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8851FA25BBA0069E4FA /* Wand.swift */; };
+		B9BEB8881FA25BCC0069E4FA /* Fists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8871FA25BCC0069E4FA /* Fists.swift */; };
+		B9BEB88A1FA25BDB0069E4FA /* Axe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8891FA25BDB0069E4FA /* Axe.swift */; };
+		B9BEB88C1FA25BF60069E4FA /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB88B1FA25BF60069E4FA /* Missile.swift */; };
+		B9BEB88E1FA25C0B0069E4FA /* Bow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB88D1FA25C0B0069E4FA /* Bow.swift */; };
+		B9BEB8901FA25C1D0069E4FA /* Baguette.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB88F1FA25C1D0069E4FA /* Baguette.swift */; };
+		B9BEB8921FA25C2E0069E4FA /* Spoon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8911FA25C2E0069E4FA /* Spoon.swift */; };
+		B9BEB8941FA25C3E0069E4FA /* Powder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8931FA25C3D0069E4FA /* Powder.swift */; };
+		B9BEB8961FA25C4F0069E4FA /* FrogEye.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8951FA25C4F0069E4FA /* FrogEye.swift */; };
+		B9BEB8981FA25C610069E4FA /* Scepter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BEB8971FA25C610069E4FA /* Scepter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +48,21 @@
 		B9418A4C1F94AE97008737E3 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		B9418A501F94AF3A008737E3 /* Weapons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapons.swift; sourceTree = "<group>"; };
 		B9418A521F94EE3E008737E3 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		B9BEB8791FA2316E0069E4FA /* Professions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Professions.swift; sourceTree = "<group>"; };
+		B9BEB8791FA2316E0069E4FA /* Warrior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
+		B9BEB87B1FA25AF60069E4FA /* Wizard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wizard.swift; sourceTree = "<group>"; };
+		B9BEB87D1FA25B0C0069E4FA /* Colossus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colossus.swift; sourceTree = "<group>"; };
+		B9BEB87F1FA25B240069E4FA /* Dwarf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dwarf.swift; sourceTree = "<group>"; };
+		B9BEB8831FA25B9F0069E4FA /* Sword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
+		B9BEB8851FA25BBA0069E4FA /* Wand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wand.swift; sourceTree = "<group>"; };
+		B9BEB8871FA25BCC0069E4FA /* Fists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fists.swift; sourceTree = "<group>"; };
+		B9BEB8891FA25BDB0069E4FA /* Axe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axe.swift; sourceTree = "<group>"; };
+		B9BEB88B1FA25BF60069E4FA /* Missile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
+		B9BEB88D1FA25C0B0069E4FA /* Bow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bow.swift; sourceTree = "<group>"; };
+		B9BEB88F1FA25C1D0069E4FA /* Baguette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baguette.swift; sourceTree = "<group>"; };
+		B9BEB8911FA25C2E0069E4FA /* Spoon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spoon.swift; sourceTree = "<group>"; };
+		B9BEB8931FA25C3D0069E4FA /* Powder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Powder.swift; sourceTree = "<group>"; };
+		B9BEB8951FA25C4F0069E4FA /* FrogEye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrogEye.swift; sourceTree = "<group>"; };
+		B9BEB8971FA25C610069E4FA /* Scepter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scepter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,9 +100,39 @@
 				B9418A4A1F94AE04008737E3 /* Player.swift */,
 				B9418A4C1F94AE97008737E3 /* Character.swift */,
 				B9418A501F94AF3A008737E3 /* Weapons.swift */,
-				B9BEB8791FA2316E0069E4FA /* Professions.swift */,
+				B9BEB8821FA25B830069E4FA /* Weapons */,
+				B9BEB8811FA25B680069E4FA /* Professions */,
 			);
 			path = Fighter_game;
+			sourceTree = "<group>";
+		};
+		B9BEB8811FA25B680069E4FA /* Professions */ = {
+			isa = PBXGroup;
+			children = (
+				B9BEB8791FA2316E0069E4FA /* Warrior.swift */,
+				B9BEB87F1FA25B240069E4FA /* Dwarf.swift */,
+				B9BEB87D1FA25B0C0069E4FA /* Colossus.swift */,
+				B9BEB87B1FA25AF60069E4FA /* Wizard.swift */,
+			);
+			path = Professions;
+			sourceTree = "<group>";
+		};
+		B9BEB8821FA25B830069E4FA /* Weapons */ = {
+			isa = PBXGroup;
+			children = (
+				B9BEB8831FA25B9F0069E4FA /* Sword.swift */,
+				B9BEB8851FA25BBA0069E4FA /* Wand.swift */,
+				B9BEB8871FA25BCC0069E4FA /* Fists.swift */,
+				B9BEB8891FA25BDB0069E4FA /* Axe.swift */,
+				B9BEB88B1FA25BF60069E4FA /* Missile.swift */,
+				B9BEB88D1FA25C0B0069E4FA /* Bow.swift */,
+				B9BEB88F1FA25C1D0069E4FA /* Baguette.swift */,
+				B9BEB8911FA25C2E0069E4FA /* Spoon.swift */,
+				B9BEB8931FA25C3D0069E4FA /* Powder.swift */,
+				B9BEB8951FA25C4F0069E4FA /* FrogEye.swift */,
+				B9BEB8971FA25C610069E4FA /* Scepter.swift */,
+			);
+			path = Weapons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,12 +193,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9BEB87A1FA2316E0069E4FA /* Professions.swift in Sources */,
+				B9BEB87A1FA2316E0069E4FA /* Warrior.swift in Sources */,
+				B9BEB88A1FA25BDB0069E4FA /* Axe.swift in Sources */,
+				B9BEB88C1FA25BF60069E4FA /* Missile.swift in Sources */,
 				B9418A511F94AF3A008737E3 /* Weapons.swift in Sources */,
+				B9BEB8801FA25B240069E4FA /* Dwarf.swift in Sources */,
+				B9BEB8861FA25BBA0069E4FA /* Wand.swift in Sources */,
 				B9418A531F94EE3E008737E3 /* Game.swift in Sources */,
 				B9418A4D1F94AE97008737E3 /* Character.swift in Sources */,
+				B9BEB8921FA25C2E0069E4FA /* Spoon.swift in Sources */,
+				B9BEB8841FA25B9F0069E4FA /* Sword.swift in Sources */,
+				B9BEB8981FA25C610069E4FA /* Scepter.swift in Sources */,
+				B9BEB8941FA25C3E0069E4FA /* Powder.swift in Sources */,
+				B9BEB88E1FA25C0B0069E4FA /* Bow.swift in Sources */,
+				B9BEB8901FA25C1D0069E4FA /* Baguette.swift in Sources */,
+				B9BEB87E1FA25B0C0069E4FA /* Colossus.swift in Sources */,
 				B9418A4B1F94AE04008737E3 /* Player.swift in Sources */,
+				B9BEB87C1FA25AF60069E4FA /* Wizard.swift in Sources */,
 				B9418A441F94AC90008737E3 /* main.swift in Sources */,
+				B9BEB8961FA25C4F0069E4FA /* FrogEye.swift in Sources */,
+				B9BEB8881FA25BCC0069E4FA /* Fists.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

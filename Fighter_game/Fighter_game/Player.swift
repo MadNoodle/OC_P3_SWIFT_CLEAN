@@ -529,7 +529,7 @@ all the custom weapons are stored in an array of Weapons called bonusWeapon
     
   //Random sanity check
   if interval > 3 {
-      print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name)"
+      print("\u{001B}[0;32mSURPRISE !!! Un coffre apparait. Vous l'ouvrez et découvrez une \(bonusWeapons[randomWeapon].name) qui fait\(bonusWeapons[randomWeapon].damages) points de dommages "
           + "\n1. Vous vous équipez avec \(bonusWeapons[randomWeapon].name)"
           + "\n2. Vous gardez votre arme\u{001B}[0;37m")
     
