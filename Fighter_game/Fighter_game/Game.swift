@@ -39,6 +39,7 @@ struct Game {
  * We check for winning conditions each turn calling winCheck
  */
   mutating func newGame(){
+      rules()
       player1.createPlayerTeam()
       player2.createPlayerTeam()
     
@@ -66,3 +67,18 @@ if a player's team array is empty the player has lost
     }
   
   }
+
+func rules(){
+  print("""
+=========================================================================================
+|                        Bienvenue dans FIGHTER GAME                                    |
+|                                                                                       |
+| Dans ce jeu d'aventure en TOUR PAR TOUR, 2 Joueurs s'affrontent dans un combat à mort.|
+| - Chaque joueur va composer une équipe de 3 combattants.                              |
+| - L'un après l'autre, ils attaqueront leur adversaire et lui infligeront des dégats.  |
+| - Le vainqueur est le premier qui tue les combattants de son adverssaire              |
+|                                                                                       |
+=========================================================================================
+
+""")
+}
