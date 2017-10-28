@@ -44,7 +44,7 @@ class Player {
  * When the input is not a digit the function returns 0 so it does not fulffil the sanity check in createHero() function
 */
   public func keyInput() -> Int{
-   let input = readLine()
+      let input = readLine()
       let number = input!
       let numberCharacters = NSCharacterSet.decimalDigits.inverted
       if number.rangeOfCharacter(from: numberCharacters) == nil {
